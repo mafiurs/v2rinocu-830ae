@@ -10,7 +10,6 @@ function Page(props) {
   if (!layout) {
     throw new Error(`page has no layout, page '${props.path}'`);
   }
-  console.log('LAYOUT: ', layout);
   const PageLayout = getComponent(layout);
   if (!PageLayout) {
     throw new Error(`no page layout matching the layout: ${layout}`);

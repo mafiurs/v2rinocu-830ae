@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
-import { getAxieIcon, axieClasses } from '../../../utils/axie';
-import { setSearchParam } from '../../../utils/helpers';
+import { getAxieIcon, axieClasses } from '../../../../../utils/axie/helpers';
+import { setSearchParam } from '../../../../../utils/helpers';
 
 export default function ClassesCheckboxes(props) {
   const router = useRouter();
@@ -9,8 +9,7 @@ export default function ClassesCheckboxes(props) {
     router.push(setSearchParam(name, e.target.value));
   };
   return (
-    <fieldset className="mt-2 space-y-1">
-      <legend className="text-xs text-gray-400">Class</legend>
+    <fieldset className="">
       <div className="flex w-full flex-wrap">
         {axieClasses.map((classType) => (
           <div class="mb-1 w-2/4">

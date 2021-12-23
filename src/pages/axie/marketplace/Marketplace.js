@@ -8,13 +8,19 @@ import {
   FilterIcon,
   MinusSmIcon,
   PlusSmIcon,
-  ViewGridIcon
+  ViewGridIcon,
+  ChevronUpIcon
 } from '@heroicons/react/solid';
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
 import FilterTabs from './FilterTabs';
-import ClassesCheckboxes from './ClassesCheckboxes';
+import ClassesCheckboxes from './components/ClassesCheckboxes/ClassesCheckboxes';
 import RangeSlider from './RangeSlider';
+import SliderWMarks from './SliderWMarks';
+import StatSlider from './StatSlider';
+import FilterDrawer from './components/FilterDrawer';
+import BodyPartSelect from './components/BodyPartSelect';
+import { axieParts } from '../../../utils/axie/helpers';
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -79,7 +85,6 @@ export default function Example() {
   const initialValues = {
     class: query?.class ?? ''
   };
-  console.log('initialValues ', initialValues);
   const formik = useFormik({
     initialValues,
     // onSubmit,
@@ -284,28 +289,69 @@ export default function Example() {
             {/* Filters */}
             <form className="hidden lg:block">
               <h3 className="sr-only">Categories</h3>
-              <FilterTabs onChange={handleChangeTab} tabs={filterTabs} />
+              {/* <FilterTabs onChange={handleChangeTab} tabs={filterTabs} /> */}
               {/* General */}
-              {filterTabs[0].current && (
-                <>
-                  <ClassesCheckboxes name="class" value={values.class} />
-                  <RangeSlider />
-                </>
-              )}
-              {/* Parts */}
-              {filterTabs[1].current && (
-                <>
-                  <ClassesCheckboxes />
-                  <RangeSlider />
-                </>
-              )}
-              {/* Stats */}
-              {filterTabs[2].current && (
-                <>
-                  <ClassesCheckboxes />
-                  <RangeSlider />
-                </>
-              )}
+              <FilterDrawer title="Class" defaultOpen>
+                <ClassesCheckboxes name="class" value={values.class} />
+              </FilterDrawer>
+              <FilterDrawer title="Desired Genetic">
+                {axieParts.map((part) => (
+                  <BodyPartSelect name={part} part={part} />
+                ))}
+              </FilterDrawer>
+              <FilterDrawer title={`Breed Count & Purity`} defaultOpen>
+                <RangeSlider
+                  min={0}
+                  max={7}
+                  step={1}
+                  queryString="breedCount"
+                  defaultValue={[0, 7]}
+                  label="Breed Count"
+                />
+                <SliderWMarks
+                  min={0}
+                  max={6}
+                  step={1}
+                  queryString="pureness"
+                  customMarks={{ 0: 'Any', 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6 }}
+                  defaultValue={0}
+                  label="Purity"
+                />
+              </FilterDrawer>
+              <FilterDrawer title="Stats" defaultOpen>
+                <StatSlider
+                  min={27}
+                  max={61}
+                  step={1}
+                  queryString="hp"
+                  defaultValue={61}
+                  label="Health"
+                />
+                <StatSlider
+                  min={27}
+                  max={61}
+                  step={1}
+                  queryString="speed"
+                  defaultValue={61}
+                  label="Speed"
+                />
+                <StatSlider
+                  min={27}
+                  max={61}
+                  step={1}
+                  queryString="skill"
+                  defaultValue={61}
+                  label="Skill"
+                />
+                <StatSlider
+                  min={27}
+                  max={61}
+                  step={1}
+                  queryString="morale"
+                  defaultValue={61}
+                  label="Morale"
+                />
+              </FilterDrawer>
             </form>
 
             {/* Product grid */}

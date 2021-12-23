@@ -17,7 +17,7 @@ export default function Desktop({ navigation = [], userNavigation = [], user = {
       setBasePath(getBasePath());
     }
   }, []);
-  console.log('basePath: ', basePath);
+
   const isActive = ({ href }) => href === basePath;
 
   return (

@@ -15,7 +15,7 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
       setBasePath(getBasePath());
     }
   }, []);
-  console.log('basePath: ', basePath);
+
   const isActive = ({ href }) => href === basePath;
   return (
     <>
@@ -24,7 +24,7 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
           const active = isActive(item);
           const { dropdown } = item;
           const customProps = dropdown ? {} : { href: item.href, as: 'a' };
-          console.log('dropdown: ', dropdown);
+
           if (dropdown) {
             return (
               <Disclosure>

@@ -39,3 +39,57 @@ export const setSearchParam = (name, value) => {
   params.set(name, value);
   return `${window.location.pathname}?${params.toString()}`;
 };
+
+export const appendSearchParam = (name, value) => {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  params.append(name, value);
+  return `${window.location.pathname}?${params.toString()}`;
+};
+
+export const deleteSearchParam = (name) => {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  params.delete(name);
+  return `${window.location.pathname}?${params.toString()}`;
+};
+
+export const appendPartToSearchParam = (name, value) => {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  let newParams = new URLSearchParams('');
+  const valuePart = value;
+  const keysMatchingInParams = params.getAll(name).length;
+  if (keysMatchingInParams) {
+    for (var pair of params.entries()) {
+      const matchesCurrent = valuePart?.split('-')[0] === pair[1]?.split('-')[0];
+      if (!matchesCurrent) {
+        newParams.append(pair[0], pair[1]);
+      }
+    }
+    newParams.append(name, value);
+    return `${window.location.pathname}?${newParams.toString()}`;
+  } else {
+    params.append(name, value);
+    return `${window.location.pathname}?${params.toString()}`;
+  }
+};
+
+export const removePartFromSearchParam = (value) => {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  let newParams = new URLSearchParams('');
+  const valuePart = value;
+  for (var pair of params.entries()) {
+    const matchesCurrent = valuePart?.split('-')[0] === pair[1]?.split('-')[0];
+    if (!matchesCurrent) {
+      newParams.append(pair[0], pair[1]);
+    } else {
+      continue;
+    }
+  }
+
+  return `${window.location.pathname}?${newParams.toString()}`;
+};
+
+export const range = (n) => Array.from(Array(n).keys());
