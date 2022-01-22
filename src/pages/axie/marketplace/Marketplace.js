@@ -1,33 +1,35 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { useFormik } from 'formik';
 import {
   ChevronDownIcon,
   FilterIcon,
   MinusSmIcon,
   PlusSmIcon,
-  ViewGridIcon,
-  ChevronUpIcon
+  ViewGridIcon
 } from '@heroicons/react/solid';
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
-import FilterTabs from './FilterTabs';
-import ClassesCheckboxes from './components/ClassesCheckboxes/ClassesCheckboxes';
-import RangeSlider from './RangeSlider';
-import SliderWMarks from './SliderWMarks';
-import StatSlider from './StatSlider';
-import FilterDrawer from './components/FilterDrawer';
-import BodyPartSelect from './components/BodyPartSelect';
+import ClassesCheckboxes from '../../../components/marketplace/ClassesCheckboxes';
+import RangeSlider from '../../../components/marketplace/RangeSlider';
+import Slider from '../../../components/marketplace/Slider';
+import SliderWMarks from '../../../components/marketplace/SliderWMarks';
+import StatSlider from '../../../components/marketplace/StatSlider';
+import FilterDrawer from '../../../components/marketplace/FilterDrawer';
+import BodyPartSelect from '../../../components/marketplace/BodyPartSelectAxie';
+import FilterBodyPlaceholder from './components/FilterBodyPlaceholder';
 import { axieParts } from '../../../utils/axie/helpers';
+import getTotalAxiesForSale from '../../../services/axie/totalAxiesForSale';
+import { canUseDOM, classNames } from '../../../utils/helpers';
 
 const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false }
+  // { name: 'Most Popular', href: '#', current: true },
+  // { name: 'Best Rating', href: '#', current: false },
+  // { name: 'Newest', href: '#', current: false },
+  { name: 'Price: Low to High (default)', href: '#', current: true }
+  // { name: 'Price: High to Low', href: '#', current: false }
 ];
 const subCategories = [
   { name: 'Totes', href: '#' },
@@ -74,36 +76,90 @@ const filters = [
   }
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+const axieEnforcedFilters = ['eyes_f', 'ears_f', 'back_f', 'mouth_f', 'tail_f', 'horn_f'];
 
 export default function Example() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const router = useRouter();
-  const { query } = router;
-  const initialValues = {
-    class: query?.class ?? ''
-  };
-  const formik = useFormik({
-    initialValues,
-    // onSubmit,
-    // validationSchema,
-    enableReinitialize: true
-    // validateOnChange: true
-  });
-  const [filterTabs, setFilterTabs] = useState([
-    { name: 'General', current: true },
-    { name: 'Parts', current: false },
-    { name: 'Stats', current: false }
-  ]);
+  console.log('ROUTER: ', router);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const handleChangeTab = (name) => (e) => {
-    e.preventDefault();
-    var index = _.findIndex(filterTabs, { name });
-    setFilterTabs(filterTabs.map((tab, idx) => ({ ...tab, current: idx === index })));
+  const getGraphVariables = () => {
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let urlParams = new URLSearchParams(url.search);
+      const parseArrayNumbers = (arr) =>
+        Array.isArray(arr) ? arr.map((item) => Number(item)) : arr;
+      const getArrayParams = (param, defReturn) => {
+        const params = urlParams.getAll(param);
+        return _.isEmpty(params) ? defReturn : params;
+      };
+      const getSingleParam = (param, defReturn) => {
+        const p = urlParams.get(param);
+        return _.isEmpty(p) ? defReturn : [p];
+      };
+
+      const getPartsToFilter = () => {
+        let partsTypesToFilter = [];
+        for (var key of urlParams.keys()) {
+          if (axieEnforcedFilters.includes(key)) {
+            const partType = key.split('_')[0];
+            partsTypesToFilter = [...partsTypesToFilter, partType];
+          }
+        }
+        const partsToFilter = getArrayParams('part', null)?.filter((part) =>
+          partsTypesToFilter.includes(part.split('-')[0])
+        );
+        return _.isEmpty(partsToFilter) ? null : partsToFilter;
+      };
+
+      const getPureness = () => {
+        const pureness = getSingleParam('pureness', null);
+        return pureness > 0 ? [pureness] : null;
+      };
+      const variables = {
+        auctionType: 'Sale',
+        sort: 'PriceAsc',
+        criteria: {
+          bodyShapes: null,
+          breedCount: parseArrayNumbers(getArrayParams('breedCount', null)),
+          breedable: null,
+          classes: getSingleParam('class', null),
+          hp: parseArrayNumbers(getArrayParams('hp', [])),
+          morale: parseArrayNumbers(getArrayParams('morale', [])),
+          numJapan: null,
+          numMystic: null,
+          numXmas: null,
+          parts: getPartsToFilter(),
+          pureness: getPureness(),
+          purity: [],
+          region: null,
+          skill: parseArrayNumbers(getArrayParams('skill', [])),
+          speed: parseArrayNumbers(getArrayParams('speed', [])),
+          stages: null,
+          title: null
+        },
+        filterStuckAuctions: true,
+        from: 0,
+        owner: null,
+        size: 100
+      };
+      return variables;
+    }
   };
-  const { handleChange, values, errors } = formik;
+
+  const variables = getGraphVariables();
+  const totalAxiesSWR = useSWR(variables, getTotalAxiesForSale);
+  const totalAxies = totalAxiesSWR?.data?.total ?? 0;
+  const totalAxiesLoading = totalAxiesSWR?.data ? false : true;
+
+  useEffect(() => {
+    totalAxiesSWR.mutate();
+  }, [router.query]);
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <Layout>
       {/*  */}
@@ -292,9 +348,17 @@ export default function Example() {
               {/* <FilterTabs onChange={handleChangeTab} tabs={filterTabs} /> */}
               {/* General */}
               <FilterDrawer title="Class" defaultOpen>
-                <ClassesCheckboxes name="class" value={values.class} />
+                <ClassesCheckboxes name="class" queryString="class" />
               </FilterDrawer>
-              <FilterDrawer title="Desired Genetic">
+              <FilterDrawer title="Genetic">
+                <Slider
+                  min={50}
+                  max={100}
+                  step={1}
+                  queryString="genPurity"
+                  defaultValue={50}
+                  label="Genetic Purity"
+                />
                 {axieParts.map((part) => (
                   <BodyPartSelect name={part} part={part} />
                 ))}
@@ -324,7 +388,7 @@ export default function Example() {
                   max={61}
                   step={1}
                   queryString="hp"
-                  defaultValue={61}
+                  defaultValue={[27, 61]}
                   label="Health"
                 />
                 <StatSlider
@@ -332,7 +396,7 @@ export default function Example() {
                   max={61}
                   step={1}
                   queryString="speed"
-                  defaultValue={61}
+                  defaultValue={[27, 61]}
                   label="Speed"
                 />
                 <StatSlider
@@ -340,7 +404,7 @@ export default function Example() {
                   max={61}
                   step={1}
                   queryString="skill"
-                  defaultValue={61}
+                  defaultValue={[27, 61]}
                   label="Skill"
                 />
                 <StatSlider
@@ -348,7 +412,7 @@ export default function Example() {
                   max={61}
                   step={1}
                   queryString="morale"
-                  defaultValue={61}
+                  defaultValue={[27, 61]}
                   label="Morale"
                 />
               </FilterDrawer>
@@ -357,7 +421,12 @@ export default function Example() {
             {/* Product grid */}
             <div className="lg:col-span-3">
               {/* Replace with your content */}
-              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
+              {/* <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" /> */}
+              <FilterBodyPlaceholder
+                totalAxies={totalAxies}
+                loading={totalAxiesLoading}
+                onClick={handleFilter}
+              />
               {/* /End replace */}
             </div>
           </div>

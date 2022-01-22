@@ -53,3 +53,15 @@ export default function FilterTabs(props) {
     </>
   );
 }
+
+// const [filterTabs, setFilterTabs] = useState([
+//   { name: 'General', current: true },
+//   { name: 'Parts', current: false },
+//   { name: 'Stats', current: false }
+// ]);
+
+// const handleChangeTab = (name) => (e) => {
+//   e.preventDefault();
+//   var index = _.findIndex(filterTabs, { name });
+//   setFilterTabs(filterTabs.map((tab, idx) => ({ ...tab, current: idx === index })));
+// };

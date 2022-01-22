@@ -1,12 +1,32 @@
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAxieIcon, axieClasses } from '../../../../../utils/axie/helpers';
-import { setSearchParam } from '../../../../../utils/helpers';
+import { getAxieIcon, axieClasses } from '../../../utils/axie/helpers';
+import { setSearchParam, canUseDOM } from '../../../utils/helpers';
 
 export default function ClassesCheckboxes(props) {
   const router = useRouter();
-  const { value, name } = props;
+  const { name, queryString } = props;
+
+  const defaultValue = null;
+  const [value, setValue] = useState(defaultValue);
+  const getValue = () => {
+    let defVal = defaultValue;
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      defVal = params.get(queryString);
+    }
+    return !_.isEmpty(defVal) ? defVal : defaultValue;
+  };
+
+  useEffect(() => {
+    if (canUseDOM) {
+      setValue(getValue());
+    }
+  }, [router.query]);
   const onClick = (e) => {
-    router.push(setSearchParam(name, e.target.value));
+    const { url, as, options } = setSearchParam(name, e.target.value);
+    router.push(url, as, options);
   };
   return (
     <fieldset className="">

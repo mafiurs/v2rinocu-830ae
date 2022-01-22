@@ -33,6 +33,7 @@
     "sourcebit": "^0.11.0",
     "sourcebit-source-filesystem": "^0.1.6",
     "sourcebit-target-next": "^0.7.1",
+    "swr": "^1.1.2",
     "tailwindcss": "^2.2.19",
     "yup": "^0.32.11"
   },

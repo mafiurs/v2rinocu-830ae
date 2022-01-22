@@ -2,14 +2,17 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Downshift from 'downshift';
 import { matchSorter } from 'match-sorter';
-import axiePartsJson from '../../../../../utils/axie/parts.json';
+import axiePartsJson from '../../../utils/axie/parts.json';
 import {
   capitalize,
   appendPartToSearchParam,
-  removePartFromSearchParam
-} from '../../../../../utils/helpers';
-import { getAxiePartIcon } from '../../../../../utils/axie/helpers';
+  removePartFromSearchParam,
+  setSearchParam,
+  deleteSearchParam
+} from '../../../utils/helpers';
+import { getAxiePartIcon } from '../../../utils/axie/helpers';
 import { XIcon } from '@heroicons/react/solid';
+import { FilterIcon as FilterIconSolid } from '@heroicons/react/solid';
 
 function getStyle(highlightedIndex, index, item, selectedItem) {
   const active = highlightedIndex === index;
@@ -74,19 +77,48 @@ export default function BodyPartSelect(props) {
     class: part[1]?.class
   }));
 
-  const handleSelect = (selected) => {
+  const handleSelect = async (selected) => {
     const formValue = selected?.formValue;
     if (formValue) {
-      router.push(appendPartToSearchParam('part', formValue));
+      const { url, as, options } = appendPartToSearchParam('part', formValue);
+      await router.push(url, as, options);
+      const f = setSearchParam(`${part}_f`, true);
+      await router.push(f.url, f.as, f.options);
     }
   };
-  const handleClearSelection = (selectedItem, clearSelection) => (e) => {
+  const handleClearSelection = (selectedItem, clearSelection) => async (e) => {
     e.preventDefault();
     const { formValue } = selectedItem;
-    router.push(removePartFromSearchParam(formValue));
+    const { url, as, options } = removePartFromSearchParam(formValue);
+    await router.push(url, as, options);
+    const f = deleteSearchParam(`${part}_f`);
+    await router.push(f.url, f.as, f.options);
     clearSelection();
     inputRef.current.focus();
   };
+  // useEffect(() => {
+  //   let url = new URL(window.location.href);
+  //   let params = new URLSearchParams(url.search);
+  //   console.log('params.get: ', params.get(`${part}_f`));
+  //   console.log('PARAMS: ', url.search);
+  // }, [router.query]);
+  const isFilterActive = () => {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    return !!params.get(`${part}_f`);
+  };
+  const filterActive = isFilterActive();
+  const handleEnforceFiltering = async (e) => {
+    e.preventDefault();
+    if (filterActive) {
+      const { url, as, options } = deleteSearchParam(`${part}_f`);
+      await router.push(url, as, options);
+    } else {
+      const { url, as, options } = setSearchParam(`${part}_f`, true);
+      await router.push(url, as, options);
+    }
+  };
+
   return (
     <Downshift
       itemToString={(item) => (item ? item.value : '')}
@@ -113,26 +145,39 @@ export default function BodyPartSelect(props) {
               {capitalize(part)}
             </label>
             <div
-              style={{ display: 'inline-block' }}
-              className="mt-1 max-w-xs w-full relative"
+              className="mt-1 max-w-xs w-full relative flex"
               {...getRootProps({}, { suppressRefError: true })}
             >
-              <span className="absolute left-1 top-1">
+              <span className="absolute left-1 top-0.5">
                 {getAxiePartIcon(part, selectedItem?.class)}
               </span>
               <input
                 ref={inputRef}
                 {...getInputProps()}
-                className="w-full bg-gray-600 border border-gray-300 rounded-md shadow-sm pl-10 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-full bg-gray-600 border border-gray-300 rounded-md shadow-sm pl-10 pr-10 py-2.5 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-xs mr-2"
               />
               <span
                 className={classNames(
-                  selectedItem ? 'cursor-pointer absolute right-2 top-3' : 'hidden'
+                  selectedItem ? 'cursor-pointer absolute right-12 top-2.5' : 'hidden'
                 )}
                 onClick={handleClearSelection(selectedItem, clearSelection)}
               >
                 <XIcon className="h-5 w-5" />
               </span>
+              <button
+                type="button"
+                className={classNames(
+                  'inline-flex items-center p-2 border-2 border-white rounded-md shadow-sm ',
+                  selectedItem && filterActive
+                    ? 'cursor-pointer bg-indigo-600 text-white hover:bg-indigo-500 active:bg-indigo-600'
+                    : selectedItem && !filterActive
+                    ? 'cursor-pointer hover:border-gray-400 bg-white text-gray-400 border-gray-400 hover:text-gray-400 hover:bg-white active:bg-indigo-100'
+                    : 'cursor-default bg-gray-400'
+                )}
+                onClick={handleEnforceFiltering}
+              >
+                <FilterIconSolid className="h-3 w-3" aria-hidden="true" />
+              </button>
             </div>
             {isOpen && (
               <ul

@@ -3,10 +3,9 @@ import Slider from 'rc-slider';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
 const { Range } = Slider;
-import { canUseDOM, range } from '../../../utils/helpers';
+import { canUseDOM, range, getRouteParams } from '../../../utils/helpers';
 
 export default function RangeSlider(props) {
-  console.log('props: ', props);
   const { label, max, min, step = 1, queryString = '', customMarks, defaultValue } = props;
 
   const marks =
@@ -32,13 +31,14 @@ export default function RangeSlider(props) {
 
   const router = useRouter();
   function handleChange(value) {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
+    let currentUrl = new URL(window.location.href);
+    let params = new URLSearchParams(currentUrl.search);
     params.delete(queryString);
     value.forEach((val) => {
       params.append(queryString, val);
     });
-    router.push(`${window.location.pathname}?${params.toString()}`);
+    const { url, as, options } = getRouteParams(params);
+    router.push(url, as, options);
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function RangeSlider(props) {
   return (
     <>
       {label && <legend className="text-xs text-gray-400 mt-1">{label}</legend>}
-      <div className="text-xs mt-2 space-y-1 ml-2 mr-2 mb-8">
+      <div className="text-xs mt-2 space-y-1 ml-2 mr-2 mb-6">
         {value && (
           <Range
             dots
