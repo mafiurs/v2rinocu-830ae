@@ -38,27 +38,26 @@ export default function RangeSlider(props) {
       setValue(getValue());
     }
   }, [router.query]);
-
   return (
     <>
       {label && <legend className="text-xs text-gray-400 mt-1">{label}</legend>}
 
-      <div className="text-xs mt-2 space-y-1 ml-2 mr-2 mb-6">
-        <Slider
-          min={min}
-          max={max}
-          marks={marks}
-          included={false}
-          defaultValue={defaultValue}
-          value={value}
-          onChange={handleChange}
-          trackStyle={{ backgroundColor: '#3B82F6' }}
-          handleStyle={{
-            borderColor: '#3B82F6'
-          }}
-          // dotStyle={{ borderColor: '#3B82F6' }}
-        />
-      </div>
+      {router.isReady && value && (
+        <div className="text-xs mt-2 space-y-1 ml-2 mr-2 mb-6">
+          <Slider
+            min={min}
+            max={max}
+            marks={marks}
+            included={false}
+            defaultValue={getValue()}
+            onAfterChange={handleChange}
+            trackStyle={{ backgroundColor: '#3B82F6' }}
+            handleStyle={{
+              borderColor: '#3B82F6'
+            }}
+          />
+        </div>
+      )}
     </>
   );
 }

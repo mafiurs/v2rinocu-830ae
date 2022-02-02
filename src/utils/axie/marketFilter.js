@@ -1,49 +1,74 @@
 // total = axie_list.get('total')
-const filterResults = (results = []) => {
-  let usefulAxiesList = [];
-  results.forEach((axie) => {});
+import { singleProbs } from '../../utils/helpers';
+const { AxieGene } = require('agp-npm/dist/axie-gene'); // Defaults to HexType.Bit256
+const MIN_SINGLE_PURENESS = 9.375;
+const parsePartGenes = ({ d, r1, r2 }) => ({
+  d: d.partId,
+  r1: r1.partId,
+  r2: r2.partId
+});
+
+const getTraits = (genes) => ({
+  eyes: parsePartGenes(genes.eyes),
+  mouth: parsePartGenes(genes.mouth),
+  ears: parsePartGenes(genes.ears),
+  horn: parsePartGenes(genes.horn),
+  back: parsePartGenes(genes.back),
+  tail: parsePartGenes(genes.tail)
+});
+
+const filterResults = (results = [], geneticPureness, selectedParts) => {
+  let usefulAxies = [];
+
+  const minBreedingScore = (geneticPureness * (selectedParts.length * 50)) / 100;
+  console.log('minBreedingScore: ', minBreedingScore);
+  console.log('geneticPureness: ', geneticPureness);
+  console.log('selectedParts.length: ', selectedParts.length);
+  results.forEach(({ id, genes, auction, stats, breedCount }) => {
+    const axieGene = new AxieGene(genes);
+    let axieUseful = true;
+    let breedingScore = 0;
+    let pureness = 0;
+
+    const axieTraits = getTraits(axieGene);
+    selectedParts.forEach((selectedPart) => {
+      const part = selectedPart?.split('-')[0];
+      const sProb = singleProbs(_.get(axieTraits, part));
+      axieUseful = _.get(sProb, selectedPart, 0) >= MIN_SINGLE_PURENESS;
+      if (axieUseful) {
+        breedingScore += _.get(sProb, selectedPart, 0);
+      }
+    });
+
+    pureness = ((breedingScore / (selectedParts.length * 50)) * 100).toFixed(2);
+    console.log('id: ', id);
+    console.log('axieUseful: ', axieUseful);
+    console.log('breedingScore: ', breedingScore);
+    if (axieUseful && breedingScore >= minBreedingScore) {
+      // usefulAxies.push({
+      //   id,
+      //   genes: axieGene,
+      //   breedingScore,
+      //   auction,
+      //   stats,
+      //   breedCount,
+      //   pureness
+      // });
+      usefulAxies = [
+        ...usefulAxies,
+        {
+          id,
+          genes: axieGene,
+          breedingScore,
+          auction,
+          stats,
+          breedCount,
+          pureness
+        }
+      ];
+    }
+  });
+  return usefulAxies;
 };
 
 export { filterResults };
-
-// def filter_results(results):
-//     useful_axies_list = []
-//     for axie in results:
-//         axie_traits = getTraits(axie.get('genes'))
-//         useful_axie = True
-//         breeding_score = 0
-//         for part in traits["parts_dict"].keys():
-//             temp_filter_part = list(traits["parts_dict"][part].keys())[0]
-
-//             if useful_axie == False:
-//                 pass
-//             elif temp_filter_part in singleProbs(axie_traits.get(part)) and singleProbs(axie_traits.get(part))[temp_filter_part]>=MIN_SINGLE_PURENESS:
-//                 breeding_score += singleProbs(axie_traits.get(part))[temp_filter_part]
-//                 useful_axie = True
-//             else:
-//                 useful_axie = False
-//         if useful_axie == True and breeding_score >= MIN_BREEDING_SCORE:
-//             #add part with probs to dataframe
-//             filtered_axies.loc[len(filtered_axies.index)] = [axie.get('id'), axie.get('genes'), axie.get('auction').get('currentPriceUSD'), breeding_score]
-//     return useful_axies_list
-// def getSteps(total):
-//     steps = 1
-//     raw_steps = total / 100
-//     initial_steps = raw_steps // 1
-//     if total <= 100:
-//         return 1
-//     if raw_steps % initial_steps != 0:
-//         steps = (raw_steps // 1) + 1
-//     else:
-//         steps = raw_steps
-//     return int(steps)
-// steps = getSteps(total)
-// callNumber = 0
-// for step in range(steps):
-//     call_step = step
-//     traits["step"] = call_step * 100
-//     try:
-//         axie_step_list = axie.get_axie_list_by_traits_2(**traits)
-//         filter_results(axie_step_list.get('results'))
-//     except:
-//         pass

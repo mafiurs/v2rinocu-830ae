@@ -58,7 +58,6 @@ export default function RangeSlider(props) {
       setValue(getValue());
     }
   }, [router.query]);
-  const icon = getStatIcon(queryString);
   const barColor = getStatColor(queryString);
   return (
     <>
@@ -66,14 +65,13 @@ export default function RangeSlider(props) {
       <div className="text-xs mt-1.5 relative">
         <div className="absolute -top-1 left-0">{getStatIcon(queryString)}</div>
         <div className="ml-7 mr-2">
-          {value && (
+          {router.isReady && value && (
             <Range
               min={min}
               max={max}
               step={step}
-              defaultValue={[min, max]}
-              value={value}
-              onChange={handleChange}
+              defaultValue={getValue()}
+              onAfterChange={handleChange}
               trackStyle={{ backgroundColor: barColor }}
               handleStyle={[
                 {

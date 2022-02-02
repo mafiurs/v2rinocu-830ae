@@ -51,14 +51,13 @@ export default function RangeSlider(props) {
     <>
       {label && <legend className="text-xs text-gray-400 mt-1">{label}</legend>}
       <div className="text-xs mt-2 space-y-1 ml-2 mr-2 mb-6">
-        {value && (
+        {router.isReady && value && (
           <Range
             dots
             step={step}
-            defaultValue={[min, max]}
-            value={value}
+            defaultValue={getValue()}
             max={max}
-            onChange={handleChange}
+            onAfterChange={handleChange}
             marks={marks}
             trackStyle={[
               { backgroundColor: '#3B82F6', borderColor: '#3B82F6' },

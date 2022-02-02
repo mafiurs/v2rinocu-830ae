@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { getAxieIcon, axieClasses } from '../../../utils/axie/helpers';
-import { setSearchParam, canUseDOM } from '../../../utils/helpers';
+import { getAxieIcon, axieClasses } from '../../../../../utils/axie/helpers';
+import { monstaClasses } from '../../../../../utils/monsta/helpers';
+import { setSearchParam, canUseDOM, capitalize } from '../../../../../utils/helpers';
 
 export default function ClassesCheckboxes(props) {
   const router = useRouter();
@@ -31,8 +32,8 @@ export default function ClassesCheckboxes(props) {
   return (
     <fieldset className="">
       <div className="flex w-full flex-wrap">
-        {axieClasses.map((classType) => (
-          <div class="mb-1 w-2/4">
+        {monstaClasses.map((classType) => (
+          <div className="mb-1 w-2/4">
             <div className="flex items-center h-5">
               <input
                 id="comments"
@@ -50,7 +51,7 @@ export default function ClassesCheckboxes(props) {
                 </span>
                 <label htmlFor="comments" className="text-xs ml-1">
                   <span className="sr-only">{classType}</span>
-                  {classType}
+                  {capitalize(classType)}
                 </label>
               </div>
             </div>

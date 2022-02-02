@@ -2,15 +2,15 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Downshift from 'downshift';
 import { matchSorter } from 'match-sorter';
-import axiePartsJson from '../../../utils/axie/parts.json';
+import axiePartsJson from '../../../../../utils/axie/parts.json';
 import {
   capitalize,
   appendPartToSearchParam,
   removePartFromSearchParam,
   setSearchParam,
   deleteSearchParam
-} from '../../../utils/helpers';
-import { getAxiePartIcon } from '../../../utils/axie/helpers';
+} from '../../../../../utils/helpers';
+import { getAxiePartIcon } from '../../../../../utils/axie/helpers';
 import { XIcon } from '@heroicons/react/solid';
 import { FilterIcon as FilterIconSolid } from '@heroicons/react/solid';
 
@@ -96,12 +96,7 @@ export default function BodyPartSelect(props) {
     clearSelection();
     inputRef.current.focus();
   };
-  // useEffect(() => {
-  //   let url = new URL(window.location.href);
-  //   let params = new URLSearchParams(url.search);
-  //   console.log('params.get: ', params.get(`${part}_f`));
-  //   console.log('PARAMS: ', url.search);
-  // }, [router.query]);
+
   const isFilterActive = () => {
     let url = new URL(window.location.href);
     let params = new URLSearchParams(url.search);
@@ -140,12 +135,12 @@ export default function BodyPartSelect(props) {
         ...rest
       }) => {
         return (
-          <div className="max-w-xs py-1 relative">
+          <div className="py-1 relative">
             <label className="block text-xs font-medium text-gray-400" {...getLabelProps()}>
               {capitalize(part)}
             </label>
             <div
-              className="mt-1 max-w-xs w-full relative flex"
+              className="mt-1 w-full relative flex"
               {...getRootProps({}, { suppressRefError: true })}
             >
               <span className="absolute left-1 top-0.5">

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const canUseDOM = !!(
   typeof window !== 'undefined' &&
   window.document &&
@@ -9,7 +11,31 @@ export const getBasePath = () => '/'.concat(_.split(_.trim(window.location.pathn
 export const capitalize = (str) => str?.replace(/^\w/, (c) => c.toUpperCase());
 
 export const PROBABILITIES = { d: 37.5, r1: 9.375, r2: 3.125 };
-export function sumProbs(sireTraits, matronTraits, part) {
+// export function sumProbs(sireTraits, matronTraits, part) {
+//   let probs = {};
+//   for (let place in sireTraits) {
+//     if (sireTraits[place] in probs) {
+//       probs[sireTraits[place]] += PROBABILITIES[place];
+//     } else {
+//       probs[sireTraits[place]] = PROBABILITIES[place];
+//     }
+//   }
+//   for (let place in matronTraits) {
+//     if (matronTraits[place] in probs) {
+//       probs[matronTraits[place]] += PROBABILITIES[place];
+//     } else {
+//       probs[matronTraits[place]] = PROBABILITIES[place];
+//     }
+//   }
+//   return {
+//     name: part,
+//     probs: Object.keys(sortObjectByValueDesc(probs)).map((key) => {
+//       return { card: key, prob: probs[key] };
+//     })
+//   };
+// }
+
+export function singleProbs(sireTraits) {
   let probs = {};
   for (let place in sireTraits) {
     if (sireTraits[place] in probs) {
@@ -18,19 +44,7 @@ export function sumProbs(sireTraits, matronTraits, part) {
       probs[sireTraits[place]] = PROBABILITIES[place];
     }
   }
-  for (let place in matronTraits) {
-    if (matronTraits[place] in probs) {
-      probs[matronTraits[place]] += PROBABILITIES[place];
-    } else {
-      probs[matronTraits[place]] = PROBABILITIES[place];
-    }
-  }
-  return {
-    name: part,
-    probs: Object.keys(sortObjectByValueDesc(probs)).map((key) => {
-      return { card: key, prob: probs[key] };
-    })
-  };
+  return probs;
 }
 
 export const setSearchParam = (name, value) => {
@@ -82,13 +96,13 @@ export const appendPartToSearchParam = (name, value) => {
   }
 };
 
-export const removePartFromSearchParam = (value) => {
+export const removePartFromSearchParam = (value, separator = '-') => {
   let currentUrl = new URL(window.location.href);
   let params = new URLSearchParams(currentUrl.search);
   let newParams = new URLSearchParams('');
   const valuePart = value;
   for (var pair of params.entries()) {
-    const matchesCurrent = valuePart?.split('-')[0] === pair[1]?.split('-')[0];
+    const matchesCurrent = valuePart?.split(separator)[0] === pair[1]?.split(separator)[0];
     if (!matchesCurrent) {
       newParams.append(pair[0], pair[1]);
     } else {
@@ -124,15 +138,33 @@ export const classNames = (...classes) => {
 };
 
 export const getChunkColor = (num) => {
-  if (num >= 15000) {
+  if (typeof num !== 'number') {
+    return '#FFFFFF';
+  }
+  if (num >= 10000) {
     return '#DC2626';
-  } else if (num >= 12000) {
+  } else if (num >= 8000) {
     return '#D97706';
-  } else if (num >= 10000) {
+  } else if (num >= 6000) {
     return '#FBBF24';
-  } else if (num >= 5000) {
+  } else if (num >= 4000) {
     return '#FCD34D';
   } else {
     return '#10B981';
   }
+};
+
+// for pagination / call sequence
+export const getSteps = (total, stepSize = 100) => {
+  let steps = 1;
+  const rawSteps = total / stepSize;
+  const initialSteps = _.floor(rawSteps);
+  if (total <= stepSize) {
+    return steps;
+  } else if (rawSteps % initialSteps != 0) {
+    steps = initialSteps + 1;
+  } else {
+    steps = rawSteps;
+  }
+  return Number(steps);
 };

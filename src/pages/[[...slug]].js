@@ -4,7 +4,6 @@ import { withRemoteDataUpdates } from 'sourcebit-target-next/with-remote-data-up
 import { getComponent } from '@stackbit/components';
 
 function Page(props) {
-  console.log('PROPS: ', props);
   const { page, site } = props;
   const { layout } = page;
 
@@ -25,6 +24,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  console.log('PARAMS: ', params);
   const props = await sourcebitDataClient.getStaticPropsForPageAtPath(params.slug);
   return { props };
 }

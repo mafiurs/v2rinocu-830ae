@@ -92,7 +92,7 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
           );
         })}
       </div>
-      <div className="pt-4 pb-3 border-t border-gray-700">
+      {/* <div className="pt-4 pb-3 border-t border-gray-700">
         <div className="flex items-center px-5">
           <div className="flex-shrink-0">
             <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
@@ -121,7 +121,7 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
             </Disclosure.Button>
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
