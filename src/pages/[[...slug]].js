@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log('PARAMS: ', params);
   const props = await sourcebitDataClient.getStaticPropsForPageAtPath(params.slug);
   return { props };
 }

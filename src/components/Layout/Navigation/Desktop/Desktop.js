@@ -54,7 +54,7 @@ export default function Desktop({ navigation = [], userNavigation = [], user = {
           </div>
         </div>
       </div>
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <div className="ml-4 flex items-center md:ml-6">
           <button
             type="button"
@@ -64,7 +64,6 @@ export default function Desktop({ navigation = [], userNavigation = [], user = {
             <BellIcon className="h-6 w-6" aria-hidden="true" />
           </button>
 
-          {/* Profile dropdown */}
           <Menu as="div" className="ml-3 relative">
             <div>
               <Menu.Button className="max-w-xs bg-gray-900 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -101,7 +100,7 @@ export default function Desktop({ navigation = [], userNavigation = [], user = {
             </Transition>
           </Menu>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

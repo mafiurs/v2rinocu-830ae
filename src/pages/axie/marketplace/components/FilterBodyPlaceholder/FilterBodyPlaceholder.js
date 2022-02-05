@@ -4,6 +4,7 @@ import AnimatedSpinLoading from '../../../../../components/atoms/AnimatedSpinLoa
 
 export default function FilterBodyPlaceholder({ totalAxies = 0, loading, onClick, loadingAxies }) {
   const TOTAL_AXIES_ALLOWED = 15000;
+  const MAX_AXIES_ALLOWED = 99999998;
   return (
     <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -15,7 +16,13 @@ export default function FilterBodyPlaceholder({ totalAxies = 0, loading, onClick
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}
-          {!loading && totalAxies}
+
+          {!loading &&
+            (totalAxies > MAX_AXIES_ALLOWED ? (
+              <p className="text-4xl">Couldn't fetch total</p>
+            ) : (
+              totalAxies
+            ))}
         </div>
       </h2>
       <div className="mt-8 flex justify-center">

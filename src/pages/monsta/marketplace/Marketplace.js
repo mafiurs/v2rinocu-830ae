@@ -90,9 +90,6 @@ export default function Example() {
   // const [loading, setLoading] = useState(true);
   const [initialLoading, setInitialLoading] = useState(false);
   const [monstaFilters, setMonstaFilters] = useState(initialFilters);
-  // console.log('loading: ', loading);
-
-  //
   const getQueryNumber = (match, defaultValue) =>
     router.query && router.query[match] ? Number(router.query[match]) : defaultValue;
 
@@ -136,11 +133,6 @@ export default function Example() {
     prevQueryRef.current = router.query;
   });
   const oldQuery = _.omit(prevQueryRef.current, ['page']);
-
-  // useEffect(async () => {
-  //   // subsequents queries
-
-  // }, [router.query]);
 
   useEffect(async () => {
     const newQuery = _.omit(router.query, ['page']);
@@ -200,8 +192,6 @@ export default function Example() {
       }
     }
   }, [monstas]);
-
-  console.log('monstas: ', monstas);
 
   const applyTag = ({ monsta, tag }) => ({ ...monsta, [tag]: true });
 
@@ -351,7 +341,7 @@ export default function Example() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-8 gap-y-10">
           {/* Filters */}
-          {router.isReady && <div className="hidden lg:block lg:col-span-1">{getFilters()}</div>}
+          <div className="hidden lg:block lg:col-span-1">{router.isReady && getFilters()}</div>
 
           {/* Product grid */}
           <div className="lg:col-span-4">

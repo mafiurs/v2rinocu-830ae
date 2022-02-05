@@ -2,26 +2,26 @@ import { LightningBoltIcon, DuplicateIcon, SearchCircleIcon } from '@heroicons/r
 
 export const navigation = [
   { name: 'Home', href: '/', current: true },
-  { name: 'Team', href: '/team', current: false },
+  // { name: 'Team', href: '/team', current: false },
   {
     name: 'Monsta',
     href: '/monsta',
     current: false,
     dropdown: [
+      // {
+      //   name: 'Scanner',
+      //   description: 'Genetic behind your monsta',
+      //   href: '/monsta/scanner',
+      //   icon: SearchCircleIcon
+      // },
+      // {
+      //   name: 'Breeder',
+      //   description: 'Breeding genetic chances',
+      //   href: '/monsta/breeder',
+      //   icon: DuplicateIcon
+      // },
       {
-        name: 'Scanner',
-        description: 'Genetic behind your monsta',
-        href: '/monsta/scanner',
-        icon: SearchCircleIcon
-      },
-      {
-        name: 'Breeder',
-        description: 'Breeding genetic chances',
-        href: '/monsta/breeder',
-        icon: DuplicateIcon
-      },
-      {
-        name: 'Marketplace',
+        name: 'Marketplace explorer',
         description: 'The monsta that you need in seconds',
         href: '/monsta/marketplace',
         icon: LightningBoltIcon
@@ -33,21 +33,21 @@ export const navigation = [
     href: '/axie',
     current: false,
     dropdown: [
+      // {
+      //   name: 'Scanner',
+      //   description: 'Genetic behind your monsta',
+      //   href: '/axie/scanner',
+      //   icon: SearchCircleIcon
+      // },
+      // {
+      //   name: 'Breeder',
+      //   description: 'Breeding genetic chances',
+      //   href: '/axie/breeder',
+      //   icon: DuplicateIcon
+      // },
       {
-        name: 'Scanner',
-        description: 'Genetic behind your monsta',
-        href: '/axie/scanner',
-        icon: SearchCircleIcon
-      },
-      {
-        name: 'Breeder',
-        description: 'Breeding genetic chances',
-        href: '/axie/breeder',
-        icon: DuplicateIcon
-      },
-      {
-        name: 'Marketplace',
-        description: 'The monsta that you need in seconds',
+        name: 'Marketplace explorer',
+        description: 'The best tool for breeders',
         href: '/axie/marketplace',
         icon: LightningBoltIcon
       }

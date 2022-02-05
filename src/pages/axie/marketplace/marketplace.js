@@ -1,8 +1,9 @@
-import { Fragment, useState, useEffect, useRef } from 'react';
+import { Fragment, useState, useEffect, useRef, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { FilterIcon } from '@heroicons/react/solid';
+import { InformationCircleIcon } from '@heroicons/react/outline';
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
 import ClassesCheckboxes from './components/ClassesCheckboxes';
@@ -18,7 +19,8 @@ import AxieCard from './components/AxieCard';
 import { axieParts } from '../../../utils/axie/helpers';
 import getTotalAxiesForSale from '../../../services/axie/totalAxiesForSale';
 import getAxiesGenes from '../../../services/axie/getAxiesGenes';
-import { canUseDOM, getSteps } from '../../../utils/helpers';
+import { canUseDOM, getSteps, PROBABILITIES } from '../../../utils/helpers';
+import getOptimalCombination from '../../../utils/optimalCombination';
 import { filterResults } from '../../../utils/axie/marketFilter';
 import usePageContent from '../../../hooks/usePageContent';
 
@@ -102,7 +104,7 @@ function Marketplace(props) {
   useEffect(async () => {
     prevQueryRef.current = router.query;
   });
-  const oldQuery = _.omit(prevQueryRef.current, ['page']);
+  const oldQuery = _.omit(prevQueryRef.current, ['page', 'genPurity', 'part']);
 
   const getTotalAxies = async () => {
     setAxies({ ...axies, data: [] });
@@ -112,7 +114,10 @@ function Marketplace(props) {
       try {
         const response = await getTotalAxiesForSale(variables);
         setTotalAxies({ ...totalAxies, loading: false, data: response.total });
-      } catch (err) {}
+      } catch (err) {
+        console.log('ERROR: ', err);
+        setTotalAxies({ ...totalAxies, loading: false, data: 99999999 });
+      }
     }
   };
   useEffect(async () => {
@@ -120,9 +125,10 @@ function Marketplace(props) {
     await getTotalAxies();
   }, []);
 
+  console.log('query: ', router.query);
   useEffect(async () => {
     // subsequent queries
-    const newQuery = _.omit(router.query, ['page']);
+    const newQuery = _.omit(router.query, ['page', 'genPurity', 'part']);
     if (!_.isEqual(oldQuery, newQuery)) {
       await getTotalAxies();
     }
@@ -149,6 +155,45 @@ function Marketplace(props) {
       setAxies({ ...axies, data: filteredAxies, loading: false });
     }
   };
+
+  const getminGenesStructure = () => {
+    let minGenes = {};
+    if (canUseDOM) {
+      const probsKeys = Object.values(PROBABILITIES);
+      let url = new URL(window.location.href);
+      let urlParams = new URLSearchParams(url.search);
+      const parts = urlParams.getAll('part');
+      const totalSelParts = parts?.length || 0;
+      const allProbs = [...Array(totalSelParts).keys()].map(() => [...probsKeys]).flat();
+      const genPurity = urlParams.get('genPurity');
+      const geneticPureness = genPurity ? Number(genPurity) : 50;
+      const fullPureness = totalSelParts * 50;
+      const minPureness = (fullPureness * geneticPureness) / 100;
+
+      if (allProbs.length > 0 && minPureness) {
+        const sum = getOptimalCombination(allProbs, minPureness);
+
+        sum.forEach((n) => {
+          for (const [key, value] of Object.entries(PROBABILITIES)) {
+            if (n === value) {
+              const keyVal = key;
+              if (!_.get(minGenes, keyVal)) {
+                minGenes[keyVal] = [keyVal];
+              } else {
+                minGenes[keyVal].push(keyVal);
+              }
+            }
+          }
+        });
+      }
+      return minGenes;
+    }
+  };
+
+  const mGenes = useMemo(() => {
+    return getminGenesStructure();
+  }, [router.query]);
+
   const getFilters = () => (
     <>
       <FilterDrawer title="Genetic" defaultOpen>
@@ -160,6 +205,61 @@ function Marketplace(props) {
           defaultValue={50}
           label="Genetic Pureness"
         />
+        <div className="rounded-md bg-gray-700 p-2">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <InformationCircleIcon className="h-4 w-4 text-gray-200" aria-hidden="true" />
+            </div>
+            <div className="ml-3 flex-1 md:flex md:justify-between">
+              <p
+                className="text-gray-200"
+                style={{
+                  fontSize: '0.65rem',
+                  lineHeight: '1rem'
+                }}
+              >
+                The "Genetic Pureness" represents the quality of the genes matching the parts
+                selected below.
+              </p>
+            </div>
+          </div>
+          {/* {minGenes.filter()} */}
+          {!_.isEmpty(mGenes) && (
+            <div className="p-1 ml-7 mr-2 rounded bg-gray-800">
+              {axieParts.map((part, idx) => (
+                <div className="flex justify-between">
+                  <span
+                    className="w-1/3 whitespace-nowrap truncate font-semibold text-gray-200"
+                    style={{
+                      fontSize: '0.65rem',
+                      lineHeight: '1rem'
+                    }}
+                  >
+                    {mGenes?.d && mGenes?.d.length >= idx + 1 && 'Dominant'}
+                  </span>
+                  <span
+                    className="w-1/3 whitespace-nowrap truncate font-semibold"
+                    style={{
+                      fontSize: '0.65rem',
+                      lineHeight: '1rem'
+                    }}
+                  >
+                    {mGenes?.r1 && mGenes?.r1.length >= idx + 1 && 'Recessive 1'}
+                  </span>
+                  <span
+                    className="w-1/3 whitespace-nowrap truncate font-semibold"
+                    style={{
+                      fontSize: '0.65rem',
+                      lineHeight: '1rem'
+                    }}
+                  >
+                    {mGenes?.r2 && mGenes?.r2.length >= idx + 1 && 'Recessive 2'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         {axieParts.map((part) => (
           <BodyPartSelect name={part} part={part} />
         ))}

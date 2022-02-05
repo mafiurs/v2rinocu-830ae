@@ -25,7 +25,6 @@ const usePageContent = (items, itemsPerPage = 25) => {
     }
   }, [router.query.page]);
   useEffect(() => {
-    console.log('items: ', items);
     if (items.length > 0) {
       const { url, as, options } = setSearchParam('page', 1);
       router.push(url, as, options);
