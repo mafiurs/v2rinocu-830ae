@@ -1,0 +1,16 @@
+import _ from 'lodash';
+import Navigation from './Navigation';
+import CoinsRibbon from './CoinsRibbon';
+
+export default function Layout(props) {
+  const { children } = props;
+  return (
+    <div className="min-h-full">
+      <Navigation />
+      <CoinsRibbon />
+      <main>
+        <div className="max-w-full px-2 sm:px-6 mx-auto py-3  lg:px-8 mt-0">{children}</div>
+      </main>
+    </div>
+  );
+}
