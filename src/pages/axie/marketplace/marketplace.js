@@ -115,7 +115,6 @@ function Marketplace(props) {
         const response = await getTotalAxiesForSale(variables);
         setTotalAxies({ ...totalAxies, loading: false, data: response.total });
       } catch (err) {
-        console.log('ERROR: ', err);
         setTotalAxies({ ...totalAxies, loading: false, data: 99999999 });
       }
     }
@@ -125,7 +124,6 @@ function Marketplace(props) {
     await getTotalAxies();
   }, []);
 
-  console.log('query: ', router.query);
   useEffect(async () => {
     // subsequent queries
     const newQuery = _.omit(router.query, ['page', 'genPurity', 'part']);

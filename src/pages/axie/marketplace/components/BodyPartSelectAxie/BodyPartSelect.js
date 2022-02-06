@@ -57,7 +57,6 @@ export default function BodyPartSelect(props) {
       let url = new URL(window.location.href);
       let params = new URLSearchParams(url.search);
       if (params) {
-        console.log('PARAMS: ', params);
         for (var pair of params.entries()) {
           const matchesCurrent = part === pair[1]?.split('-')[0];
           if (matchesCurrent) {
