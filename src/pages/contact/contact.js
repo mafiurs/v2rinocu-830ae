@@ -298,16 +298,14 @@ export default function Example() {
                   </dl>
                   <ul role="list" className="mt-8 flex space-x-12">
                     <li>
-                      <a class="text-indigo-200 hover:text-indigo-100" href="#">
-                        <span class="sr-only">Facebook</span>
-
+                      <a className="text-indigo-200 hover:text-indigo-100" href="#">
+                        <span className="sr-only">Facebook</span>
                         <svg
-                          class="w-7 h-7"
+                          className="w-7 h-7"
                           aria-hidden="true"
                           focusable="false"
                           data-prefix="fab"
                           data-icon="discord"
-                          class="svg-inline--fa fa-discord fa-w-20"
                           role="img"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 640 512"

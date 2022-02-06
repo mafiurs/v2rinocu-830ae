@@ -72,7 +72,6 @@ export default function RangeSlider(props) {
               step={step}
               defaultValue={getValue()}
               onAfterChange={handleChange}
-              trackStyle={{ backgroundColor: barColor }}
               handleStyle={[
                 {
                   borderColor: barColor,
@@ -95,8 +94,10 @@ export default function RangeSlider(props) {
             />
           )}
           <div className="mr-0 text-xs text-gray-400 flex justify-between">
-            {value.map((val) => (
-              <span style={{ fontSize: '0.625rem' }}>{val}</span>
+            {value.map((val, idx) => (
+              <span key={idx} style={{ fontSize: '0.625rem' }}>
+                {val}
+              </span>
             ))}
           </div>
         </div>

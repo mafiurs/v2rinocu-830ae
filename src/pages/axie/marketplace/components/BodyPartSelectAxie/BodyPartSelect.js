@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
+import { useRef } from 'react';
+import _ from 'lodash';
 import { useRouter } from 'next/router';
 import Downshift from 'downshift';
 import { matchSorter } from 'match-sorter';
@@ -8,7 +9,8 @@ import {
   appendPartToSearchParam,
   removePartFromSearchParam,
   setSearchParam,
-  deleteSearchParam
+  deleteSearchParam,
+  canUseDOM
 } from '../../../../../utils/helpers';
 import { getAxiePartIcon } from '../../../../../utils/axie/helpers';
 import { XIcon } from '@heroicons/react/solid';
@@ -50,32 +52,37 @@ export default function BodyPartSelect(props) {
   const router = useRouter();
 
   const getDefaultValue = () => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
     let value;
-    for (var pair of params.entries()) {
-      const matchesCurrent = part === pair[1]?.split('-')[0];
-      if (matchesCurrent) {
-        const jsonPart = axiePartsJson[part][pair[1]];
-        value = {
-          value: jsonPart.partName,
-          description: jsonPart.skillName,
-          formValue: pair[1],
-          class: jsonPart.class
-        };
-      } else {
-        continue;
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      if (params) {
+        for (var pair of params.entries()) {
+          const matchesCurrent = part === pair[1]?.split('-')[0];
+          if (matchesCurrent) {
+            const jsonPart = axiePartsJson[part][pair[1]];
+            value = {
+              value: jsonPart.partName,
+              description: jsonPart.skillName,
+              formValue: pair[1],
+              class: jsonPart.class
+            };
+          } else {
+            continue;
+          }
+        }
       }
     }
     return value;
   };
-
-  const parts = Object.entries(axiePartsJson[part]).map((part) => ({
-    value: part[1]?.partName,
-    description: part[1]?.skillName,
-    formValue: part[0],
-    class: part[1]?.class
-  }));
+  const parts =
+    part &&
+    Object.entries(axiePartsJson[part]).map((part) => ({
+      value: part[1]?.partName,
+      description: part[1]?.skillName,
+      formValue: part[0],
+      class: part[1]?.class
+    }));
 
   const handleSelect = async (selected) => {
     const formValue = selected?.formValue;
@@ -98,9 +105,12 @@ export default function BodyPartSelect(props) {
   };
 
   const isFilterActive = () => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
-    return !!params.get(`${part}_f`);
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      return !!params.get(`${part}_f`);
+    }
+    return false;
   };
   const filterActive = isFilterActive();
   const handleEnforceFiltering = async (e) => {
@@ -116,7 +126,7 @@ export default function BodyPartSelect(props) {
 
   return (
     <Downshift
-      itemToString={(item) => (item ? item.value : '')}
+      itemToString={(item) => (item ? item?.value : '')}
       onSelect={handleSelect}
       initialSelectedItem={getDefaultValue()}
     >
@@ -130,9 +140,7 @@ export default function BodyPartSelect(props) {
         highlightedIndex,
         selectedItem,
         getRootProps,
-        clearItems,
-        clearSelection,
-        ...rest
+        clearSelection
       }) => {
         return (
           <div className="py-1 relative">
@@ -179,13 +187,14 @@ export default function BodyPartSelect(props) {
                 {...getMenuProps()}
                 className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-0 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none"
               >
-                {isOpen
+                {isOpen && parts
                   ? matchSorter(parts, inputValue, {
                       keys: ['value', 'description', 'formValue', 'class']
                     }).map((item, index) => (
                       <li
+                        key={index}
                         {...getItemProps({
-                          key: item.value,
+                          key: item?.value,
                           index,
                           item,
                           style: getStyle(highlightedIndex, index, item, selectedItem)
@@ -194,8 +203,8 @@ export default function BodyPartSelect(props) {
                         <span className="absolute left-1">
                           {getAxiePartIcon(part, item?.class)}
                         </span>
-                        {item.value}
-                        <span className="text-xs block">{item.description}</span>
+                        {item?.value}
+                        <span className="text-xs block">{item?.description}</span>
                       </li>
                     ))
                   : null}

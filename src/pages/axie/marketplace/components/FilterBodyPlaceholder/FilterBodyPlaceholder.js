@@ -12,14 +12,14 @@ export default function FilterBodyPlaceholder({ totalAxies = 0, loading, onClick
         <span className="block">the search results</span>
         <span className="block mt-4 sm:text-2xl">Axies found:</span>
         <div
-          class={classNames('flex items-center justify-center text-6xl mt-6')}
+          className={classNames('flex items-center justify-center text-6xl mt-6')}
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}
 
           {!loading &&
             (totalAxies > MAX_AXIES_ALLOWED ? (
-              <p className="text-4xl">Couldn't fetch total</p>
+              <p className="text-4xl">Couldn{"'"}t fetch total</p>
             ) : (
               totalAxies
             ))}
