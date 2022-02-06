@@ -7,7 +7,8 @@ import {
   capitalize,
   appendPartToSearchParam,
   setSearchParam,
-  deleteSearchParam
+  deleteSearchParam,
+  canUseDOM
 } from '../../../../../utils/helpers';
 import { getMonstaPartIcon, getMonstaColor } from '../../../../../utils/monsta/helpers';
 import { XIcon } from '@heroicons/react/solid';
@@ -48,28 +49,32 @@ export default function BodyPartSelect(props) {
   const router = useRouter();
 
   const getDefaultValue = () => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
     let value;
-    const paramPart = params.get(`${part}_d`);
-    if (paramPart) {
-      const jsonPart = monstaPartsJson[part][paramPart];
-      value = {
-        value: jsonPart.partName,
-        description: jsonPart.skillName,
-        formValue: paramPart,
-        class: jsonPart.class
-      };
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      const paramPart = params.get(`${part}_d`);
+      if (paramPart) {
+        const jsonPart = monstaPartsJson[part][paramPart];
+        value = {
+          value: jsonPart.partName,
+          description: jsonPart.skillName,
+          formValue: paramPart,
+          class: jsonPart.class
+        };
+      }
     }
     return value;
   };
 
-  const parts = Object.entries(monstaPartsJson[part]).map((part) => ({
-    value: part[1]?.partName,
-    description: part[1]?.skillName,
-    formValue: part[0],
-    class: part[1]?.class
-  }));
+  const parts =
+    part &&
+    Object.entries(monstaPartsJson[part]).map((part) => ({
+      value: part[1]?.partName,
+      description: part[1]?.skillName,
+      formValue: part[0],
+      class: part[1]?.class
+    }));
 
   const handleSelect = async (selected) => {
     const formValue = selected?.formValue;
@@ -90,14 +95,20 @@ export default function BodyPartSelect(props) {
     inputRef.current.focus();
   };
   const isR1FilterActive = () => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
-    return !!params.get(`${part}_r1`);
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      return !!params.get(`${part}_r1`);
+    }
+    return false;
   };
   const isR2FilterActive = () => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
-    return !!params.get(`${part}_r2`);
+    if (canUseDOM) {
+      let url = new URL(window.location.href);
+      let params = new URLSearchParams(url.search);
+      return !!params.get(`${part}_r2`);
+    }
+    return false;
   };
   const r1FilterActive = isR1FilterActive();
   const r2FilterActive = isR2FilterActive();
@@ -206,11 +217,12 @@ export default function BodyPartSelect(props) {
                 {...getMenuProps()}
                 className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-0 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none"
               >
-                {isOpen
+                {isOpen && parts
                   ? matchSorter(parts, inputValue, {
                       keys: ['value', 'description', 'formValue', 'class']
                     }).map((item, index) => (
                       <li
+                        key={index}
                         {...getItemProps({
                           key: item.value,
                           index,

@@ -218,8 +218,8 @@ function Marketplace(props) {
                   lineHeight: '1rem'
                 }}
               >
-                The "Genetic Pureness" represents the quality of the genes matching the parts
-                selected below.
+                The {'"'}Genetic Pureness{'"'} represents the quality of the genes matching the
+                parts selected below.
               </p>
             </div>
           </div>
@@ -227,7 +227,7 @@ function Marketplace(props) {
           {!_.isEmpty(mGenes) && (
             <div className="p-1 ml-7 mr-2 rounded bg-gray-800">
               {axieParts.map((part, idx) => (
-                <div className="flex justify-between">
+                <div key={idx} className="flex justify-between">
                   <span
                     className="w-1/3 whitespace-nowrap truncate font-semibold text-gray-200"
                     style={{
@@ -260,8 +260,8 @@ function Marketplace(props) {
             </div>
           )}
         </div>
-        {axieParts.map((part) => (
-          <BodyPartSelect name={part} part={part} />
+        {axieParts.map((part, idx) => (
+          <BodyPartSelect key={idx} name={part} part={part} />
         ))}
       </FilterDrawer>
       <FilterDrawer title="Class">
@@ -413,8 +413,8 @@ function Marketplace(props) {
             {axies.data.length > 0 && (
               <>
                 <div className="flex flex-wrap justify-center">
-                  {pageContent.map((axie) => (
-                    <AxieCard {...axie} />
+                  {pageContent.map((axie, idx) => (
+                    <AxieCard key={idx} {...axie} />
                   ))}
                 </div>
                 <Pagination totalPages={totalPages} />

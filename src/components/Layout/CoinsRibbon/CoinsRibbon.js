@@ -77,8 +77,8 @@ export default function CoinsRibbon() {
           id="animatedTokens"
         >
           <div className="flex content-center text-xs font-semibold h-full">
-            {data.map((token) => (
-              <div className="whitespace-nowrap mr-4">
+            {data.map((token, idx) => (
+              <div key={idx} className="whitespace-nowrap mr-4">
                 <span className="inline">{token.id}</span>
                 <span className={`inline ml-2 ${token.classColor}`}>
                   {token.usd} {token.variance}
