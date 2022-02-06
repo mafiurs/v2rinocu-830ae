@@ -4,7 +4,7 @@ import Button from '../../../../../components/atoms/Button';
 const AnimatedSpinLoading = ({ size = 5 }) => {
   return (
     <svg
-      class={`animate-spin h-${size} w-${size} text-white`}
+      className={`animate-spin h-${size} w-${size} text-white`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -15,7 +15,7 @@ const AnimatedSpinLoading = ({ size = 5 }) => {
         cy="12"
         r="10"
         stroke="currentColor"
-        stroke-width="4"
+        strokeWidth="4"
       ></circle>
       <path
         className="opacity-75"
@@ -39,7 +39,7 @@ export default function FilterBodyPlaceholder({ totalAxies = 0, loading, onClick
         {loading && <span className="block">Loading...</span>}
 
         <div
-          class={classNames('flex items-center justify-center text-6xl mt-6')}
+          className={classNames('flex items-center justify-center text-6xl mt-6')}
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}

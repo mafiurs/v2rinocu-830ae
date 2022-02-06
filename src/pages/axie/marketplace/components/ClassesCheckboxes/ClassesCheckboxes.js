@@ -31,9 +31,9 @@ export default function ClassesCheckboxes(props) {
   return (
     <fieldset className="">
       <div className="flex w-full flex-wrap">
-        {axieClasses.map((classType) => (
-          <div className="mb-1 w-2/4">
-            <div className="flex items-center h-5">
+        {axieClasses.map((classType, idx) => (
+          <div key={idx} className="mb-1 w-2/4">
+            <div key={idx} className="flex items-center h-5">
               <input
                 id="comments"
                 aria-describedby="comments-description"

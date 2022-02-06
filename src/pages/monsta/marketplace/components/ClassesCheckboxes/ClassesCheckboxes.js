@@ -32,8 +32,8 @@ export default function ClassesCheckboxes(props) {
   return (
     <fieldset className="">
       <div className="flex w-full flex-wrap">
-        {monstaClasses.map((classType) => (
-          <div className="mb-1 w-2/4">
+        {monstaClasses.map((classType, idx) => (
+          <div key={idx} className="mb-1 w-2/4">
             <div className="flex items-center h-5">
               <input
                 id="comments"

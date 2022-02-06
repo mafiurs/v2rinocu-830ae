@@ -241,8 +241,8 @@ export default function Example() {
   const getFilters = () => (
     <>
       <FilterDrawer title="Genetic" defaultOpen>
-        {monstaParts.map((part) => (
-          <BodyPartSelect name={part} part={part} />
+        {monstaParts.map((part, idx) => (
+          <BodyPartSelect key={idx} name={part} part={part} />
         ))}
       </FilterDrawer>
       <FilterDrawer title="Class">
@@ -351,11 +351,11 @@ export default function Example() {
             {monstas.length > 0 && (
               <>
                 <div className="flex flex-wrap justify-center">
-                  {pageContent.map((monsta) => (
-                    <MonstaCard {...monsta} />
+                  {pageContent.map((monsta, idx) => (
+                    <MonstaCard key={idx} {...monsta} />
                   ))}
                 </div>
-                <div class={classNames('flex items-center justify-center text-6xl mt-6')}>
+                <div className={classNames('flex items-center justify-center text-6xl mt-6')}>
                   {loading && <AnimatedSpinLoading size={8} />}
                 </div>
 
