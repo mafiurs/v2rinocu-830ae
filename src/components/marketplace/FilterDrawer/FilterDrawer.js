@@ -9,7 +9,7 @@ export default function FilterDrawer(props) {
       {({ open }) => (
         <>
           <h3 className="-my-3 flow-root">
-            <Disclosure.Button className="py-1.5 text-white w-full flex items-center justify-between text-xs text-gray-400 hover:text-gray-400">
+            <Disclosure.Button className="py-1.5 text-white w-full flex items-center justify-between text-xs text-gray-400 hover:text-gray-200">
               <span className="font-medium">{title}</span>
               <span className="ml-6 flex items-center">
                 {open ? (

@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { FilterIcon } from '@heroicons/react/solid';
 import { InformationCircleIcon } from '@heroicons/react/outline';
+
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
 import ClassesCheckboxes from './components/ClassesCheckboxes';
@@ -104,7 +105,7 @@ function Marketplace(props) {
   useEffect(async () => {
     prevQueryRef.current = router.query;
   });
-  const oldQuery = _.omit(prevQueryRef.current, ['page', 'genPurity', 'part']);
+  const oldQuery = _.omit(prevQueryRef.current, ['page', 'part']);
 
   const getTotalAxies = async () => {
     setAxies({ ...axies, data: [] });
@@ -126,11 +127,15 @@ function Marketplace(props) {
 
   useEffect(async () => {
     // subsequent queries
-    const newQuery = _.omit(router.query, ['page', 'genPurity', 'part']);
+    const newQuery = _.omit(router.query, ['page', 'part']);
     if (!_.isEqual(oldQuery, newQuery)) {
       await getTotalAxies();
     }
   }, [router.query]);
+
+  const handleRetryClick = async () => {
+    await getTotalAxies();
+  };
 
   const handleFilter = async (e) => {
     setAxies({ ...axies, loading: true });
@@ -406,6 +411,7 @@ function Marketplace(props) {
                 loading={totalAxies?.loading}
                 loadingAxies={axies?.loading}
                 onClick={handleFilter}
+                onRetryClick={handleRetryClick}
               />
             )}
             {axies.data.length > 0 && (

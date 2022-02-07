@@ -89,8 +89,8 @@ export default function BodyPartSelect(props) {
     if (formValue) {
       const { url, as, options } = appendPartToSearchParam('part', formValue);
       await router.push(url, as, options);
-      const f = setSearchParam(`${part}_f`, true);
-      await router.push(f.url, f.as, f.options);
+      // const f = setSearchParam(`${part}_f`, true);
+      // await router.push(f.url, f.as, f.options);
     }
   };
   const handleClearSelection = (selectedItem, clearSelection) => async (e) => {
