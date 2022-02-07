@@ -5,9 +5,7 @@ import CoinsRibbon from './CoinsRibbon';
 import Hero from './Hero';
 
 export default function Layout(props) {
-  console.log('PROPS: ', props);
   const { children, homePage = false } = props;
-  console.log('homePage: ', homePage);
   return (
     <div className="min-h-full">
       <Navigation />

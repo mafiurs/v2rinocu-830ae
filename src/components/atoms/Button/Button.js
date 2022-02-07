@@ -1,7 +1,6 @@
 import { classNames } from '../../../utils/helpers';
 
 const Button = ({ label, onClick, loading, disabled, inverted }) => {
-  console.log('label: ', label);
   return (
     <button
       onClick={(e) => {

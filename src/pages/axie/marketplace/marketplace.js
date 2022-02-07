@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import { FilterIcon } from '@heroicons/react/solid';
 import { InformationCircleIcon } from '@heroicons/react/outline';
+
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
 import ClassesCheckboxes from './components/ClassesCheckboxes';
@@ -131,6 +132,10 @@ function Marketplace(props) {
       await getTotalAxies();
     }
   }, [router.query]);
+
+  const handleRetryClick = async () => {
+    await getTotalAxies();
+  };
 
   const handleFilter = async (e) => {
     setAxies({ ...axies, loading: true });
@@ -406,6 +411,7 @@ function Marketplace(props) {
                 loading={totalAxies?.loading}
                 loadingAxies={axies?.loading}
                 onClick={handleFilter}
+                onRetryClick={handleRetryClick}
               />
             )}
             {axies.data.length > 0 && (

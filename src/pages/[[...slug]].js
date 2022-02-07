@@ -6,9 +6,6 @@ import HomePage from './index';
 function Page(props) {
   const { page, site } = props;
   const { layout } = page;
-  console.log('site: ', site);
-  console.log('page: ', page);
-  console.log('ISHOMEPAGE: ', page.__metadata.urlPath === '/');
   const isHomePage = page.__metadata.urlPath === '/';
 
   if (!layout) {
