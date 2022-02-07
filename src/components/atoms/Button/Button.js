@@ -1,6 +1,7 @@
 import { classNames } from '../../../utils/helpers';
 
-const Button = ({ label, onClick, loading, disabled }) => {
+const Button = ({ label, onClick, loading, disabled, inverted }) => {
+  console.log('label: ', label);
   return (
     <button
       onClick={(e) => {
@@ -11,7 +12,8 @@ const Button = ({ label, onClick, loading, disabled }) => {
       }}
       className={classNames(
         'inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white relative focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white',
-        !disabled && 'bg-indigo-600 hover:bg-indigo-700',
+        !disabled && !inverted && 'bg-indigo-600 hover:bg-indigo-700',
+        !disabled && inverted && 'text-indigo-600 bg-white hover:bg-gray-100',
         loading && 'cursor-default',
         disabled && 'bg-gray-400 cursor-default'
       )}
