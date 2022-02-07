@@ -8,7 +8,8 @@ export default function FilterBodyPlaceholder({
   loading,
   onClick,
   loadingAxies,
-  onRetryClick
+  onRetryClick,
+  error
 }) {
   const TOTAL_AXIES_ALLOWED = 15000;
   const MAX_AXIES_ALLOWED = 99999998;
@@ -35,13 +36,14 @@ export default function FilterBodyPlaceholder({
         <span className="block">Use the filters to narrow down</span>
         <span className="block">the search results</span>
         <span className="block mt-4 sm:text-2xl">Axies found:</span>
+        {error && <span className="block mt-4 sm:text-xl">{error}</span>}
         <div
           className={classNames('flex items-center justify-center text-6xl mt-6')}
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}
 
-          {!loading && (totalAxies > MAX_AXIES_ALLOWED ? getRetryButton() : totalAxies)}
+          {!error && !loading && (totalAxies > MAX_AXIES_ALLOWED ? getRetryButton() : totalAxies)}
         </div>
       </h2>
       {!loading && totalAxies < MAX_AXIES_ALLOWED && (
