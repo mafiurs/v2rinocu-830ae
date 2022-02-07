@@ -108,7 +108,7 @@ function Marketplace(props) {
   const oldQuery = _.omit(prevQueryRef.current, ['page', 'part']);
 
   const getTotalAxies = async () => {
-    setAxies({ ...axies, data: [] });
+    setAxies({ ...axies, data: [], err: null });
     const variables = getGraphVariables({ from: 0 });
     if (router.isReady) {
       setTotalAxies({ ...totalAxies, loading: true });
@@ -138,7 +138,7 @@ function Marketplace(props) {
   };
 
   const handleFilter = async (e) => {
-    setAxies({ ...axies, loading: true });
+    setAxies({ ...axies, loading: true, err: null });
     e.preventDefault();
     if (totalAxies?.data > 0) {
       let url = new URL(window.location.href);
@@ -147,15 +147,23 @@ function Marketplace(props) {
       const selectedPartsParam = urlParams.getAll('part');
       const selectedParts = !_.isEmpty(selectedPartsParam) ? selectedPartsParam : [];
       const geneticPureness = genPurityParam ? Number(genPurityParam) : 50;
-      const steps = getSteps(totalAxies?.data);
+      const steps = getSteps(totalAxies?.data, 100);
       const getAxiesGenesPromises = [...Array(steps).keys()].map((step) => {
-        const vars = getGraphVariables({ from: step });
+        const vars = getGraphVariables({ from: step * 100 });
         return getAxiesGenes(vars);
       });
       const allAxies = await Promise.all(getAxiesGenesPromises);
       const clearedAllAxies = allAxies.filter((arr) => Array.isArray(arr)).flat();
       const filteredAxies = filterResults(clearedAllAxies, geneticPureness, selectedParts);
-      setAxies({ ...axies, data: filteredAxies, loading: false });
+      const axiesList = _.uniqBy(filteredAxies, 'id');
+      let err;
+      if (axiesList.length === 0) {
+        err = 'No axies found matching the given criteria';
+        setAxies({ ...axies, loading: false, error: err });
+        return;
+      }
+
+      setAxies({ ...axies, data: axiesList, loading: false, err: null });
     }
   };
 
@@ -206,7 +214,7 @@ function Marketplace(props) {
           step={1}
           queryString="genPurity"
           defaultValue={50}
-          label="Genetic Pureness"
+          label="Genetic Affinity"
         />
         <div className="rounded-md bg-gray-700 p-2">
           <div className="flex">
@@ -221,7 +229,7 @@ function Marketplace(props) {
                   lineHeight: '1rem'
                 }}
               >
-                The {'"'}Genetic Pureness{'"'} represents the quality of the genes matching the
+                The {'"'}Genetic Affinity{'"'} represents the quality of the genes matching the
                 parts selected below.
               </p>
             </div>
@@ -412,6 +420,7 @@ function Marketplace(props) {
                 loadingAxies={axies?.loading}
                 onClick={handleFilter}
                 onRetryClick={handleRetryClick}
+                error={axies.err}
               />
             )}
             {axies.data.length > 0 && (
