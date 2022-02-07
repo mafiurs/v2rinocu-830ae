@@ -104,7 +104,7 @@ function Marketplace(props) {
   useEffect(async () => {
     prevQueryRef.current = router.query;
   });
-  const oldQuery = _.omit(prevQueryRef.current, ['page', 'genPurity', 'part']);
+  const oldQuery = _.omit(prevQueryRef.current, ['page', 'part']);
 
   const getTotalAxies = async () => {
     setAxies({ ...axies, data: [] });
@@ -126,7 +126,7 @@ function Marketplace(props) {
 
   useEffect(async () => {
     // subsequent queries
-    const newQuery = _.omit(router.query, ['page', 'genPurity', 'part']);
+    const newQuery = _.omit(router.query, ['page', 'part']);
     if (!_.isEqual(oldQuery, newQuery)) {
       await getTotalAxies();
     }
