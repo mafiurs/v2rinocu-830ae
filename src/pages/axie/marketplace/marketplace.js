@@ -147,9 +147,7 @@ function Marketplace(props) {
       const selectedPartsParam = urlParams.getAll('part');
       const selectedParts = !_.isEmpty(selectedPartsParam) ? selectedPartsParam : [];
       const geneticPureness = genPurityParam ? Number(genPurityParam) : 50;
-      console.log('totalAxies?.data: ', totalAxies?.data);
       const steps = getSteps(totalAxies?.data, 100);
-      console.log('steps: ', steps);
       const getAxiesGenesPromises = [...Array(steps).keys()].map((step) => {
         const vars = getGraphVariables({ from: step * 100 });
         return getAxiesGenes(vars);
@@ -158,7 +156,6 @@ function Marketplace(props) {
       const clearedAllAxies = allAxies.filter((arr) => Array.isArray(arr)).flat();
       const filteredAxies = filterResults(clearedAllAxies, geneticPureness, selectedParts);
       const axiesList = _.uniqBy(filteredAxies, 'id');
-      console.log('axiesList: ', axiesList);
       let err;
       if (axiesList.length === 0) {
         err = 'No axies found matching the given criteria';
@@ -169,7 +166,6 @@ function Marketplace(props) {
       setAxies({ ...axies, data: axiesList, loading: false, err: null });
     }
   };
-  console.log('AXIES: ', axies.data);
 
   const getminGenesStructure = () => {
     let minGenes = {};
