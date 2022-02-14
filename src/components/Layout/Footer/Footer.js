@@ -59,11 +59,15 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer aria-labelledby="footer-heading">
+    <footer
+      aria-labelledby="footer-heading"
+      className="mt-12"
+      style={{ backgroundColor: '#191f28' }}
+    >
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="border-t border-gray-700 max-w-full mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div className="max-w-screen-2xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 ">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8 xl:col-span-1">
             {/* <img
@@ -115,7 +119,7 @@ export default function Footer() {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold tracking-wider uppercase">About us</h3>
+                <h3 className="text-sm font-semibold tracking-wider uppercase">Contact</h3>
                 <ul role="list" className="mt-4 space-y-2">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
@@ -141,7 +145,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-600 pt-8 text-gray-200">
+        <div className="mt-12 border-t border-gray-600 pt-8 text-gray-300">
           <p className="text-base  xl:text-center">&copy; 2022 Rinocu, Inc. All rights reserved.</p>
         </div>
       </div>

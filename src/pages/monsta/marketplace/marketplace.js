@@ -1,8 +1,9 @@
 import { Fragment, useState, useEffect, useRef } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
-import { FilterIcon, MinusSmIcon, PlusSmIcon } from '@heroicons/react/solid';
+import { FilterIcon } from '@heroicons/react/solid';
 import _ from 'lodash';
 import Layout from '../../../components/Layout';
 import ClassesCheckboxes from './components/ClassesCheckboxes';
@@ -14,56 +15,10 @@ import FilterBodyPlaceholder from './components/FilterBodyPlaceholder';
 import MonstaCard from './components/MonstaCard';
 import AnimatedSpinLoading from '../../../components/atoms/AnimatedSpinLoading';
 import { monstaParts, genesStructure, getDetail } from '../../../utils/monsta/helpers';
-import { canUseDOM, classNames, getSteps } from '../../../utils/helpers';
+import { canUseDOM, classNames } from '../../../utils/helpers';
 import usePageContent from '../../../hooks/usePageContent';
 import { fetchMonstaMarket } from '../../../services/monsta/monsta';
 
-const subCategories = [
-  { name: 'Totes', href: '#' },
-  { name: 'Backpacks', href: '#' },
-  { name: 'Travel Bags', href: '#' },
-  { name: 'Hip Bags', href: '#' },
-  { name: 'Laptop Sleeves', href: '#' }
-];
-const filters = [
-  {
-    id: 'color',
-    name: 'Color',
-    options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: true },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false }
-    ]
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false }
-    ]
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true }
-    ]
-  }
-];
-
-const axieEnforcedFilters = ['eyes_f', 'ears_f', 'back_f', 'mouth_f', 'tail_f', 'horn_f'];
 const initialGeneStructure = genesStructure.reduce((a, v) => ({ ...a, [v]: null }), {});
 const initialFilters = {
   currentPage: null,
@@ -80,16 +35,14 @@ const initialFilters = {
   }
 };
 
-export default function Example() {
+export default function Marketplace() {
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const [lastFetchedMonstas, setLastFetchedMonstas] = useState([]);
   const [monstas, setMonstas] = useState([]);
   const [steps, setSteps] = useState(1);
-  // const [loading, setLoading] = useState(true);
   const [initialLoading, setInitialLoading] = useState(false);
-  const [monstaFilters, setMonstaFilters] = useState(initialFilters);
   const getQueryNumber = (match, defaultValue) =>
     router.query && router.query[match] ? Number(router.query[match]) : defaultValue;
 
@@ -121,10 +74,6 @@ export default function Example() {
         pureness: getQueryNumber('pureness', 1),
         genes: getQueryGeneStructure()
       };
-      await setMonstaFilters({
-        ...filters,
-        ...queries
-      });
       resolve(queries);
     });
 
@@ -273,6 +222,10 @@ export default function Example() {
 
   return (
     <Layout>
+      <Head>
+        <title>Rinocu | Monsta | Marketplace</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {/* Mobile filter dialog */}
       <Transition.Root show={mobileFiltersOpen} as={Fragment}>
         <Dialog
@@ -334,7 +287,7 @@ export default function Example() {
         </button>
       </div>
 
-      <section aria-labelledby="products-heading" className="pt-6 pb-24">
+      <section aria-labelledby="products-heading" className="pt-2">
         <h2 id="products-heading" className="sr-only">
           Products
         </h2>

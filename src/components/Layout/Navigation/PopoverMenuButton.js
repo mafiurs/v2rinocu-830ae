@@ -30,21 +30,21 @@ export default function PopoverMenuButton({ name, dropdown, active }) {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute z-20 w-screen max-w-sm px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0">
+            <Popover.Panel className="absolute z-20 w-screen max-w-xs px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0">
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-1">
+                <div className="relative grid gap-8 bg-white p-4 lg:grid-cols-1">
                   {dropdown.map((item) => (
                     <a
                       key={item.name}
                       href={item.href}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
-                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
-                        <item.icon className="h-6 w-6" aria-hidden="true" />
+                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-9 sm:w-9">
+                        <item.icon className="h-5 w-5" aria-hidden="true" />
                       </span>
                       <div className="ml-4">
-                        <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                        <p className="text-sm text-gray-500">{item.description}</p>
+                        <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                        <p className="text-xs text-gray-500">{item.description}</p>
                       </div>
                     </a>
                   ))}

@@ -5,6 +5,7 @@ import { BellIcon } from '@heroicons/react/outline';
 import _ from 'lodash';
 import PopoverMenuButton from '../PopoverMenuButton';
 import { canUseDOM, getBasePath } from '../../../../utils/helpers';
+import RinocuLogo from '../../../atoms/Svg/RinocuLogo';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -24,11 +25,9 @@ export default function Desktop({ navigation = [], userNavigation = [], user = {
     <>
       <div className="flex items-center">
         <div className="flex-shrink-0">
-          <img
-            className="h-8 w-8"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-            alt="Workflow"
-          />
+          <a href="/">
+            <RinocuLogo />
+          </a>
         </div>
         <div className="hidden md:block">
           <div className="ml-10 flex items-baseline space-x-4">

@@ -15,7 +15,7 @@ export default function Layout(props) {
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <Desktop navigation={navigation} userNavigation={userNavigation} user={user} />
               <div className="-mr-2 flex md:hidden">

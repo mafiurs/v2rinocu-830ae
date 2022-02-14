@@ -38,6 +38,7 @@ module.exports = withBundleAnalyzer({
 
 module.exports = {
   publicRuntimeConfig: {
-    localEnv: process.env.NETLIFY_LOCAL === 'true'
+    localEnv: process.env.NETLIFY_LOCAL === 'true',
+    captchaSitekey: process.env.CAPTCHA_SITE_KEY
   }
 };

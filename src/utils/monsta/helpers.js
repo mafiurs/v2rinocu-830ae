@@ -685,15 +685,15 @@ export const getDetail = (monsta) => {
 };
 
 export const monstaColors = {
-  alchemist: '#60A5FA',
-  prophet: '#059669',
-  juggernaut: '#D97706',
-  prime: '#FBBF24',
-  bomoh: '#E56997',
-  nightingale: '#6EE7B7',
-  golem: '#9CA3AF',
-  grognak: '#FCA5A5',
-  terminator: '#78350F'
+  alchemist: 'text-blue-400',
+  prophet: 'text-green-500',
+  juggernaut: 'text-yellow-600',
+  prime: 'text-yellow-500',
+  bomoh: 'text-pink-400',
+  nightingale: 'text-green-200',
+  golem: 'text-gray-400',
+  grognak: 'text-red-200',
+  terminator: 'text-indigo-400'
 };
 
 export const getMonstaColor = (className = '') => {

@@ -11,7 +11,7 @@ export default function FilterBodyPlaceholder({
   onRetryClick,
   error
 }) {
-  const TOTAL_AXIES_ALLOWED = 15000;
+  const TOTAL_AXIES_ALLOWED = 25000;
   const MAX_AXIES_ALLOWED = 99999998;
   const getRetryButton = () => {
     return (
@@ -35,10 +35,10 @@ export default function FilterBodyPlaceholder({
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
         <span className="block">Use the filters to narrow down</span>
         <span className="block">the search results</span>
-        <span className="block mt-4 sm:text-2xl">Axies found:</span>
+        <span className="block mt-4 sm:text-xl text-gray-300">Axies found:</span>
         {error && <span className="block mt-4 sm:text-xl">{error}</span>}
         <div
-          className={classNames('flex items-center justify-center text-6xl mt-6')}
+          className={classNames('flex items-center justify-center text-6xl mt-2')}
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}

@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect, useRef, useMemo } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
@@ -22,6 +23,7 @@ import getTotalAxiesForSale from '../../../services/axie/totalAxiesForSale';
 import getAxiesGenes from '../../../services/axie/getAxiesGenes';
 import { canUseDOM, getSteps, PROBABILITIES } from '../../../utils/helpers';
 import getOptimalCombination from '../../../utils/optimalCombination';
+
 import { filterResults } from '../../../utils/axie/marketFilter';
 import usePageContent from '../../../hooks/usePageContent';
 
@@ -75,7 +77,7 @@ function Marketplace(props) {
         sort: 'PriceAsc',
         criteria: {
           bodyShapes: null,
-          breedCount: parseArrayNumbers(getArrayParams('breedCount', null)),
+          breedCount: parseArrayNumbers(getArrayParams('breedCount', [0, 0])),
           breedable: null,
           classes: getSingleParam('class', null),
           hp: parseArrayNumbers(getArrayParams('hp', [])),
@@ -105,7 +107,7 @@ function Marketplace(props) {
   useEffect(async () => {
     prevQueryRef.current = router.query;
   });
-  const oldQuery = _.omit(prevQueryRef.current, ['page', 'part']);
+  const oldQuery = _.omit(prevQueryRef.current, ['page']);
 
   const getTotalAxies = async () => {
     setAxies({ ...axies, data: [], err: null });
@@ -127,7 +129,7 @@ function Marketplace(props) {
 
   useEffect(async () => {
     // subsequent queries
-    const newQuery = _.omit(router.query, ['page', 'part']);
+    const newQuery = _.omit(router.query, ['page']);
     if (!_.isEqual(oldQuery, newQuery)) {
       await getTotalAxies();
     }
@@ -285,7 +287,7 @@ function Marketplace(props) {
           max={7}
           step={1}
           queryString="breedCount"
-          defaultValue={[0, 7]}
+          defaultValue={[0, 0]}
           label="Breed Count"
         />
         <SliderWMarks
@@ -339,6 +341,21 @@ function Marketplace(props) {
 
   return (
     <Layout>
+      <Head>
+        <title>Rinocu | Axie | Marketplace</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content="Axie Infinity - marketplace explorer." />
+        <meta
+          name="description"
+          content="Rinocu delivers the best crypto game content within the reach of a click. The best crypto game content ever created."
+        />
+        <meta property="og:image" content="/images/rinocu-discord-logo.png" />
+        <meta
+          name="keywords"
+          content="crypto game, crypto, defi, staking, axie infinity, monsta infinite, pegaxy, eth, axs, slp, btc, moni, stt, blockchain, wallet, metamask, ronin, ron, liquidity, katana, binance, bsc, bnb, busd, usdt, data, volume, mint, token, coin, solidity, react, web3, ethers"
+        />
+      </Head>
       {/* Mobile filter dialog */}
       <Transition.Root show={mobileFiltersOpen} as={Fragment}>
         <Dialog
@@ -401,7 +418,7 @@ function Marketplace(props) {
         </button>
       </div>
 
-      <section aria-labelledby="products-heading" className="pt-2 pb-24">
+      <section aria-labelledby="products-heading" className="pt-2">
         <h2 id="products-heading" className="sr-only">
           Products
         </h2>
