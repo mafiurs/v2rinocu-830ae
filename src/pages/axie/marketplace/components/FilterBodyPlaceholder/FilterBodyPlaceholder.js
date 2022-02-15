@@ -31,22 +31,24 @@ export default function FilterBodyPlaceholder({
     );
   };
   return (
-    <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-      <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-        <span className="block">Use the filters to narrow down</span>
-        <span className="block">the search results</span>
-        <span className="block mt-4 sm:text-xl text-gray-300">Axies found:</span>
-        {error && <span className="block mt-4 sm:text-xl">{error}</span>}
+    <div className="max-w-xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+        <h3 className="block text-3xl font-extrabold tracking-tight">
+          Use the filters to narrow down the search results
+        </h3>
+        {!error && <p className="block mt-4 sm:text-xl text-gray-300">Axies found:</p>}
+
+        {error && <span className="block mt-4 font-medium sm:text-xl text-red-500">{error}</span>}
         <div
-          className={classNames('flex items-center justify-center text-6xl mt-2')}
+          className={classNames('flex items-center justify-center text-6xl mt-4')}
           style={{ color: getChunkColor(totalAxies) }}
         >
           {loading && <AnimatedSpinLoading size={8} />}
 
           {!error && !loading && (totalAxies > MAX_AXIES_ALLOWED ? getRetryButton() : totalAxies)}
         </div>
-      </h2>
-      {!loading && totalAxies < MAX_AXIES_ALLOWED && (
+      </div>
+      {!loading && totalAxies < MAX_AXIES_ALLOWED && !error && (
         <div className="mt-8 flex justify-center">
           <div className="inline-flex rounded-md shadow">
             <Button
