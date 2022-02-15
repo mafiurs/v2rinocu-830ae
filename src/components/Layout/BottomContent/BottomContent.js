@@ -49,7 +49,7 @@ export default function CoinsRibbon() {
           open: true,
           content: {
             title: 'Suggestion submitted',
-            description: 'Thank you for replying, we will review it asap.',
+            description: 'Thank you for replying.',
             type: 'success'
           }
         });

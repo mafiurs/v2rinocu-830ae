@@ -340,7 +340,6 @@ function Marketplace(props) {
     </>
   );
 
-  console.log('AXIES: ', axies);
   return (
     <Layout>
       <Head>
