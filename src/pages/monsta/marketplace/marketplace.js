@@ -99,6 +99,7 @@ export default function Marketplace() {
       setLastFetchedMonstas([]);
       setSteps(1);
       const { cloneUsage, currentPage, ...queries } = await getQueries();
+      console.log('QUERIES: ', queries);
       const step = (currentPage - 1) * 100;
       try {
         const response = await fetchMonstaMarket({
@@ -146,7 +147,9 @@ export default function Marketplace() {
   const applyTag = ({ monsta, tag }) => ({ ...monsta, [tag]: true });
 
   const disableNonMatchingClasses = (classType) => (monsta) => {
-    return classType && monsta.class !== classType ? applyTag({ monsta, tag: 'disabled' }) : monsta;
+    return classType && monsta.class.toLowerCase() !== classType
+      ? applyTag({ monsta, tag: 'disabled' })
+      : monsta;
   };
 
   const disableNonMatchingPureness = (pureness) => (monsta) => {
