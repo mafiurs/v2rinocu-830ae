@@ -38,6 +38,7 @@ const initialFilters = {
 export default function Marketplace() {
   const router = useRouter();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const filters = initialFilters;
 
   const [lastFetchedMonstas, setLastFetchedMonstas] = useState([]);
   const [monstas, setMonstas] = useState([]);

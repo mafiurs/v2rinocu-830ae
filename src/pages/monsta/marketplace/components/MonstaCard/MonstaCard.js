@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { monstaParts, getMonstaColor } from '../../../../../utils/monsta/helpers';
 import { capitalize, canUseDOM } from '../../../../../utils/helpers';
+import { classNames } from '../../../../../utils/helpers';
 
 const MonstaCard = ({ id, price, stats, breedCount, pureness, ...rest }) => {
   const MONSTA_BASE_URL = 'https://marketplace.monstainfinite.com/monsta';
@@ -27,11 +28,13 @@ const MonstaCard = ({ id, price, stats, breedCount, pureness, ...rest }) => {
       <div className="p-2">
         <div className="flex justify-between">
           <div
-            className="flex flex-row text-xs font-semibold"
+            className={classNames(
+              'flex flex-row text-xs font-semibold ',
+              getMonstaColor(rest?.class)
+            )}
             style={{
               fontSize: '0.7rem',
-              lineHeight: '1rem',
-              color: getMonstaColor(rest?.class)
+              lineHeight: '1rem'
             }}
           >
             {rest?.class}
@@ -73,31 +76,37 @@ const MonstaCard = ({ id, price, stats, breedCount, pureness, ...rest }) => {
                 {capitalize(part)}
               </span>
               <span
-                className="w-1/3 whitespace-nowrap truncate font-semibold"
+                className={classNames(
+                  'w-1/3 whitespace-nowrap truncate font-semibold',
+                  getMonstaColor(rest[part]?.d?.class)
+                )}
                 style={{
                   fontSize: '0.7rem',
-                  lineHeight: '1.1rem',
-                  color: getMonstaColor(rest[part]?.d?.class)
+                  lineHeight: '1.1rem'
                 }}
               >
                 {rest[part]?.d?.class}
               </span>
               <span
-                className="w-1/3 whitespace-nowrap truncate font-semibold"
+                className={classNames(
+                  'w-1/3 whitespace-nowrap truncate font-semibold',
+                  getMonstaColor(rest[part]?.r1?.class)
+                )}
                 style={{
                   fontSize: '0.7rem',
-                  lineHeight: '1.1rem',
-                  color: getMonstaColor(rest[part]?.r1?.class)
+                  lineHeight: '1.1rem'
                 }}
               >
                 {rest[part]?.r1?.class}
               </span>
               <span
-                className="w-1/3 whitespace-nowrap truncate font-semibold"
+                className={classNames(
+                  'w-1/3 whitespace-nowrap truncate font-semibold',
+                  getMonstaColor(rest[part]?.r2?.class)
+                )}
                 style={{
                   fontSize: '0.7rem',
-                  lineHeight: '1.1rem',
-                  color: getMonstaColor(rest[part]?.r2?.class)
+                  lineHeight: '1.1rem'
                 }}
               >
                 {rest[part]?.r2?.class}
