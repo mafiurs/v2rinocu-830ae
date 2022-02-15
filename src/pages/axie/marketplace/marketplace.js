@@ -110,7 +110,7 @@ function Marketplace(props) {
   const oldQuery = _.omit(prevQueryRef.current, ['page']);
 
   const getTotalAxies = async () => {
-    setAxies({ ...axies, data: [], err: null });
+    setAxies({ ...axies, data: [], error: null });
     const variables = getGraphVariables({ from: 0 });
     if (router.isReady) {
       setTotalAxies({ ...totalAxies, loading: true });
@@ -140,7 +140,7 @@ function Marketplace(props) {
   };
 
   const handleFilter = async (e) => {
-    setAxies({ ...axies, loading: true, err: null });
+    setAxies({ ...axies, loading: true, error: null });
     e.preventDefault();
     if (totalAxies?.data > 0) {
       let url = new URL(window.location.href);
@@ -160,12 +160,13 @@ function Marketplace(props) {
       const axiesList = _.uniqBy(filteredAxies, 'id');
       let err;
       if (axiesList.length === 0) {
-        err = 'No axies found matching the given criteria';
+        err =
+          'We could not find any axie matching the given criteria. Modify the parameters and try again.';
         setAxies({ ...axies, loading: false, error: err });
         return;
       }
 
-      setAxies({ ...axies, data: axiesList, loading: false, err: null });
+      setAxies({ ...axies, data: axiesList, loading: false, error: null });
     }
   };
 
@@ -339,6 +340,7 @@ function Marketplace(props) {
     </>
   );
 
+  console.log('AXIES: ', axies);
   return (
     <Layout>
       <Head>
@@ -437,9 +439,10 @@ function Marketplace(props) {
                 loadingAxies={axies?.loading}
                 onClick={handleFilter}
                 onRetryClick={handleRetryClick}
-                error={axies.err}
+                error={axies.error}
               />
             )}
+
             {axies.data.length > 0 && (
               <>
                 <div className="flex flex-wrap justify-center">
