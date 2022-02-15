@@ -56,12 +56,12 @@ export default function CoinsRibbon() {
   }
 
   useEffect(async () => {
-    if (!localEnv) {
-      const coingeckoTokens = await getCoingeckoPrices(RAW_TOKENS_QUERY, tokenIds);
-      if (!_.isEmpty(coingeckoTokens)) {
-        setState({ data: coingeckoTokens });
-      }
+    // if (!localEnv) {
+    const coingeckoTokens = await getCoingeckoPrices(RAW_TOKENS_QUERY, tokenIds);
+    if (!_.isEmpty(coingeckoTokens)) {
+      setState({ data: coingeckoTokens });
     }
+    // }
   }, []);
 
   useEffect(async () => {
