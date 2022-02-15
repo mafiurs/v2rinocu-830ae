@@ -39,14 +39,13 @@ export default function Contact() {
               </h1>
               <p className="mt-6 text-base text-gray-300 max-w-3xl">
                 In Rinocu we want to deliver the best crypto content within the reach of a click.
-                You won't need to keep browsing for hours in order to find the best crypto game tool
-                any longer.
+                You will not need to keep browsing for hours in order to find the best crypto game
+                tool any longer.
               </p>
               <h3 className="mt-6 text-base text-gray-300 max-w-3xl">Contact information:</h3>
               <ul
                 role="list"
-                className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-16 sm:space-y-0 lg:grid-cols-3 lg:max-w-7xl"
-                className="text-base"
+                className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-16 sm:space-y-0 lg:grid-cols-3 lg:max-w-7xl text-base"
               >
                 <li>
                   <span className="text-base text-gray-300"></span>

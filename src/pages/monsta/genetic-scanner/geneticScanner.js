@@ -30,7 +30,6 @@ export default function GeneticScanner() {
   }, [query]);
 
   const onSubmit = async (values) => {
-    console.log('values: ', values);
     setFetchState({ loading: true });
     router.push(`${window.location.pathname}?monstaId=${values.monstaId.trim()}`);
   };

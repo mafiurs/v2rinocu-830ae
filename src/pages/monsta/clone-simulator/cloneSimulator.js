@@ -150,7 +150,7 @@ export default function CloneSimulator() {
                   ];
                   const rows = allRows[idx];
                   return (
-                    <div className="mt-2 sm:mx-1 w-full sm:w-auto">
+                    <div className="mt-2 sm:mx-1 w-full sm:w-auto" key={idx}>
                       <Table columns={columns} rows={rows} />
                     </div>
                   );

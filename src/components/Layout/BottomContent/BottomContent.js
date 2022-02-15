@@ -43,7 +43,6 @@ export default function CoinsRibbon() {
     setLoading(true);
     try {
       const response = await gameSuggestions(values);
-      console.log('response: ', response);
       if (response.status === 200) {
         setAlertContent({
           ...alertContent,

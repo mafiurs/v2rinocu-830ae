@@ -9,7 +9,7 @@ export default function Table({ columns, rows = [] }) {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-700">
                 <tr>
-                  {columns.map(({ title, srLabel }) => {
+                  {columns.map(({ title, srLabel }, idx) => {
                     const empty = !title;
                     if (empty) {
                       <th scope="col" className="relative px-6 py-3">
@@ -20,6 +20,7 @@ export default function Table({ columns, rows = [] }) {
                       <th
                         scope="col"
                         className="px-3 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        key={idx}
                       >
                         {title}
                       </th>
@@ -29,7 +30,6 @@ export default function Table({ columns, rows = [] }) {
               </thead>
               <tbody className="bg-gray-600 divide-y divide-gray-500">
                 {rows.map((row, idx) => {
-                  console.log('row: ', row);
                   return (
                     <tr key={idx}>
                       {row.map(({ content, className }, idx) => (
