@@ -1,463 +1,127 @@
+import Head from 'next/head';
 import Layout from '../../components/Layout';
-import { Fragment } from 'react';
-import { Popover, Transition } from '@headlessui/react';
-import { MailIcon, MenuIcon, PhoneIcon, XIcon } from '@heroicons/react/outline';
 
-const DISCORD_URL = 'https://discord.gg/DsWFUkEuW8';
-const navigation = [
-  { name: 'Changelog', href: '#' },
-  { name: 'About', href: '#' },
-  { name: 'Partners', href: '#' },
-  { name: 'News', href: '#' }
+const people = [
+  {
+    name: 'Marcos Blázquez',
+    role: 'Founder / Developer',
+    imageUrl: '/images/linkedin-marcos.png',
+    // twitterUrl: '#',
+    linkedinUrl: 'https://www.linkedin.com/in/marcos-blazquez-3a756b111/?locale=en_US'
+  }
 ];
-const offices = [
-  { id: 1, city: 'Los Angeles', address: ['4556 Brendan Ferry', 'Los Angeles, CA 90210'] },
-  { id: 2, city: 'New York', address: ['886 Walter Streets', 'New York, NY 12345'] },
-  { id: 3, city: 'Toronto', address: ['7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'] },
-  { id: 4, city: 'London', address: ['114 Cobble Lane', 'London N1 2EF'] }
-];
-const footerNavigation = {
-  solutions: [
-    { name: 'Marketing', href: '#' },
-    { name: 'Analytics', href: '#' },
-    { name: 'Commerce', href: '#' },
-    { name: 'Insights', href: '#' }
-  ],
-  support: [
-    { name: 'Pricing', href: '#' },
-    { name: 'Documentation', href: '#' },
-    { name: 'Guides', href: '#' },
-    { name: 'API Status', href: '#' }
-  ],
-  company: [
-    { name: 'About', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Jobs', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Partners', href: '#' }
-  ],
-  legal: [
-    { name: 'Claim', href: '#' },
-    { name: 'Privacy', href: '#' },
-    { name: 'Terms', href: '#' }
-  ],
-  social: [
-    {
-      name: 'Facebook',
-      href: '#',
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )
-    },
-    {
-      name: 'Instagram',
-      href: '#',
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )
-    },
-    {
-      name: 'Twitter',
-      href: '#',
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-        </svg>
-      )
-    },
-    {
-      name: 'GitHub',
-      href: '#',
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )
-    },
-    {
-      name: 'Dribbble',
-      href: '#',
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )
-    }
-  ]
-};
 
-export default function Example() {
+export default function Contact() {
   return (
     <Layout>
+      <Head>
+        <title>Rinocu | Contact</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content="Rinocu - contact page." />
+        <meta
+          name="description"
+          content="Rinocu delivers the best crypto game content within the reach of a click. The best crypto game content ever created."
+        />
+        <meta property="og:image" content="/images/rinocu-discord-logo.png" />
+        <meta
+          name="keywords"
+          content="crypto game, crypto, defi, staking, axie infinity, monsta infinite, pegaxy, eth, axs, slp, btc, moni, stt, blockchain, wallet, metamask, ronin, ron, liquidity, katana, binance, bsc, bnb, busd, usdt, data, volume, mint, token, coin, solidity, react, web3, ethers"
+        />
+      </Head>
       <main className="overflow-hidden">
         {/* Header */}
         <div className="bg-warm-gray-50">
-          <div className="py-12 lg:py-20">
+          <div className="pt-12 lg:pt-20">
             <div className="relative z-10 max-w-7xl mx-auto pl-4 pr-8 sm:px-6 lg:px-8">
-              <h1 className="text-4xl font-extrabold tracking-tight text-warm-gray-900 sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-extrabold tracking-tight text-warm-gray-900 sm:text-5xl lg:text-4xl">
                 Get in touch
               </h1>
-              <p className="mt-6 text-xl text-warm-gray-500 max-w-3xl">
-                Vel nunc non ut montes, viverra tempor. Proin lectus nibh phasellus morbi non morbi.
-                In elementum urna ut volutpat. Sagittis et vel et fermentum amet consequat.
+              <p className="mt-6 text-base text-gray-300 max-w-3xl">
+                In Rinocu we want to deliver the best crypto content within the reach of a click.
+                You will not need to keep browsing for hours in order to find the best crypto game
+                tool any longer.
               </p>
+              <h3 className="mt-6 text-base text-gray-300 max-w-3xl">Contact information:</h3>
+              <ul
+                role="list"
+                className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-16 sm:space-y-0 lg:grid-cols-3 lg:max-w-7xl text-base"
+              >
+                <li>
+                  <span className="text-base text-gray-300"></span>
+                  <a href="mailto:contact@rinocu.com" target="_blank" rel="noopener noreferrer">
+                    contact@rinocu.com
+                  </a>
+                </li>
+                <li>
+                  <span className="text-base text-gray-300"></span>
+                  <a href="https://discord.gg/rN6RUhftRX" target="_blank" rel="noopener noreferrer">
+                    https://discord.gg/rN6RUhftRX
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
         {/* Contact section */}
         <section className="relative" aria-labelledby="contact-heading">
-          <div className="absolute w-full h-1/2 bg-warm-gray-50" aria-hidden="true" />
-          {/* Decorative dot pattern */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <svg
-              className="absolute z-0 top-0 right-0 transform -translate-y-16 translate-x-1/2 sm:translate-x-1/4 md:-translate-y-24 lg:-translate-y-72"
-              width={404}
-              height={384}
-              fill="none"
-              viewBox="0 0 404 384"
-              aria-hidden="true"
-            >
-              <defs>
-                <pattern
-                  id="64e643ad-2176-4f86-b3d7-f2c5da3b6a6d"
-                  x={0}
-                  y={0}
-                  width={20}
-                  height={20}
-                  patternUnits="userSpaceOnUse"
+          <div className="">
+            <div className="max-w-7xl mx-auto py-12 px-4 text-center sm:px-6 lg:px-8 lg:py-12">
+              <div className="">
+                <ul
+                  role="list"
+                  className="mx-auto space-y-16 sm:grid sm:grid-cols-2 sm:gap-16 sm:space-y-0 lg:grid-cols-3 lg:max-w-7xl"
                 >
-                  <rect
-                    x={0}
-                    y={0}
-                    width={4}
-                    height={4}
-                    className="text-warm-gray-800"
-                    fill="#374151"
-                  />
-                </pattern>
-              </defs>
-              <rect width={404} height={384} fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)" />
-            </svg>
-          </div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative bg-white shadow-xl">
-              <h2 id="contact-heading" className="sr-only">
-                Contact us
-              </h2>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3">
-                {/* Contact information */}
-                <div className="relative overflow-hidden py-10 px-6 bg-gradient-to-b from-indigo-500 to-indigo-600 sm:px-10 xl:p-12">
-                  {/* Decorative angle backgrounds */}
-                  <div
-                    className="absolute inset-0 pointer-events-none sm:hidden"
-                    aria-hidden="true"
-                  >
-                    <svg
-                      className="absolute inset-0 w-full h-full"
-                      width={343}
-                      height={388}
-                      viewBox="0 0 343 388"
-                      fill="none"
-                      preserveAspectRatio="xMidYMid slice"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M-99 461.107L608.107-246l707.103 707.107-707.103 707.103L-99 461.107z"
-                        fill="url(#linear1)"
-                        fillOpacity=".1"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="linear1"
-                          x1="254.553"
-                          y1="107.554"
-                          x2="961.66"
-                          y2="814.66"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#fff" />
-                          <stop offset={1} stopColor="#fff" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <div
-                    className="hidden absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none sm:block lg:hidden"
-                    aria-hidden="true"
-                  >
-                    <svg
-                      className="absolute inset-0 w-full h-full"
-                      width={359}
-                      height={339}
-                      viewBox="0 0 359 339"
-                      fill="none"
-                      preserveAspectRatio="xMidYMid slice"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M-161 382.107L546.107-325l707.103 707.107-707.103 707.103L-161 382.107z"
-                        fill="url(#linear2)"
-                        fillOpacity=".1"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="linear2"
-                          x1="192.553"
-                          y1="28.553"
-                          x2="899.66"
-                          y2="735.66"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#fff" />
-                          <stop offset={1} stopColor="#fff" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <div
-                    className="hidden absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none lg:block"
-                    aria-hidden="true"
-                  >
-                    <svg
-                      className="absolute inset-0 w-full h-full"
-                      width={160}
-                      height={678}
-                      viewBox="0 0 160 678"
-                      fill="none"
-                      preserveAspectRatio="xMidYMid slice"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M-161 679.107L546.107-28l707.103 707.107-707.103 707.103L-161 679.107z"
-                        fill="url(#linear3)"
-                        fillOpacity=".1"
-                      />
-                      <defs>
-                        <linearGradient
-                          id="linear3"
-                          x1="192.553"
-                          y1="325.553"
-                          x2="899.66"
-                          y2="1032.66"
-                          gradientUnits="userSpaceOnUse"
-                        >
-                          <stop stopColor="#fff" />
-                          <stop offset={1} stopColor="#fff" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-medium text-white">Contact information</h3>
-                  <p className="mt-6 text-base text-teal-50 max-w-3xl">
-                    Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst
-                    amet. Sapien tortor lacus arcu.
-                  </p>
-                  <dl className="mt-8 space-y-6">
-                    <dt>
-                      <span className="sr-only">Phone number</span>
-                    </dt>
-                    {/* <dd className="flex text-base text-teal-50">
-                      <PhoneIcon
-                        className="flex-shrink-0 w-6 h-6 text-teal-200"
-                        aria-hidden="true"
-                      />
-                      <span className="ml-3">+1 (555) 123-4567</span>
-                    </dd> */}
-                    <dt>
-                      <span className="sr-only">Email</span>
-                    </dt>
-                    <dd className="flex text-base text-teal-50">
-                      <MailIcon
-                        className="flex-shrink-0 w-6 h-6 text-teal-200"
-                        aria-hidden="true"
-                      />
-                      <span className="ml-3">contact@rinocu.com</span>
-                    </dd>
-                  </dl>
-                  <ul role="list" className="mt-8 flex space-x-12">
-                    <li>
-                      <a className="text-indigo-200 hover:text-indigo-100" href="#">
-                        <span className="sr-only">Facebook</span>
-                        <svg
-                          className="w-7 h-7"
-                          aria-hidden="true"
-                          focusable="false"
-                          data-prefix="fab"
-                          data-icon="discord"
-                          role="img"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 640 512"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"
-                          ></path>
-                        </svg>
-                      </a>
+                  {people.map((person) => (
+                    <li key={person.name}>
+                      <div className="space-y-6 bg-gray-700 rounded-lg py-8">
+                        <img
+                          className="mx-auto h-40 w-40 rounded-full xl:w-56 xl:h-56"
+                          src={person.imageUrl}
+                          alt=""
+                        />
+                        <div className="space-y-2">
+                          <div className="text-lg leading-6 font-medium space-y-1">
+                            <h3>{person.name}</h3>
+                            <p className="text-indigo-300">{person.role}</p>
+                          </div>
+                          <ul role="list" className="flex justify-center space-x-5">
+                            <li>
+                              <a
+                                href={person.linkedinUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-gray-400 hover:text-gray-500"
+                              >
+                                <span className="sr-only">LinkedIn</span>
+                                <svg
+                                  className="w-5 h-5"
+                                  aria-hidden="true"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </li>
-                  </ul>
-                </div>
-
-                {/* Contact form */}
-                <div className="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12 text-gray-600">
-                  <h3 className="text-lg font-medium text-warm-gray-900">Send us a message</h3>
-                  <form
-                    action="#"
-                    method="POST"
-                    className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
-                  >
-                    <div>
-                      <label
-                        htmlFor="first-name"
-                        className="block text-sm font-medium text-warm-gray-900"
-                      >
-                        First name
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium text-warm-gray-900"
-                      >
-                        Last name
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-warm-gray-900"
-                      >
-                        Email
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between">
-                        <label
-                          htmlFor="phone"
-                          className="block text-sm font-medium text-warm-gray-900"
-                        >
-                          Phone
-                        </label>
-                        <span id="phone-optional" className="text-sm text-warm-gray-500">
-                          Optional
-                        </span>
-                      </div>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          name="phone"
-                          id="phone"
-                          autoComplete="tel"
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
-                          aria-describedby="phone-optional"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <label
-                        htmlFor="subject"
-                        className="block text-sm font-medium text-warm-gray-900"
-                      >
-                        Subject
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          name="subject"
-                          id="subject"
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <div className="flex justify-between">
-                        <label
-                          htmlFor="message"
-                          className="block text-sm font-medium text-warm-gray-900"
-                        >
-                          Message
-                        </label>
-                        <span id="message-max" className="text-sm text-warm-gray-500">
-                          Max. 500 characters
-                        </span>
-                      </div>
-                      <div className="mt-1">
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={4}
-                          className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border border-warm-gray-300 rounded-md"
-                          aria-describedby="message-max"
-                          defaultValue={''}
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2 sm:flex sm:justify-end">
-                      <button
-                        type="submit"
-                        className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:w-auto"
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </section>
 
         {/* Contact grid */}
-        <section aria-labelledby="offices-heading">
+        {/* <section aria-labelledby="offices-heading">
           <div className="max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
             <h2 id="offices-heading" className="text-3xl font-extrabold text-warm-gray-900">
               Our offices
@@ -481,10 +145,10 @@ export default function Example() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
-      <footer className="bg-warm-gray-900" aria-labelledby="footer-heading">
+      {/* <footer className="bg-warm-gray-900" aria-labelledby="footer-heading">
         <h2 id="footer-heading" className="sr-only">
           Footer
         </h2>
@@ -593,7 +257,7 @@ export default function Example() {
             </p>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </Layout>
   );
 }

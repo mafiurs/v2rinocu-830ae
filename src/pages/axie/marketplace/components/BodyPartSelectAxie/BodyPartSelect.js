@@ -89,8 +89,8 @@ export default function BodyPartSelect(props) {
     if (formValue) {
       const { url, as, options } = appendPartToSearchParam('part', formValue);
       await router.push(url, as, options);
-      // const f = setSearchParam(`${part}_f`, true);
-      // await router.push(f.url, f.as, f.options);
+      const f = setSearchParam(`${part}_f`, true);
+      await router.push(f.url, f.as, f.options);
     }
   };
   const handleClearSelection = (selectedItem, clearSelection) => async (e) => {
@@ -177,6 +177,9 @@ export default function BodyPartSelect(props) {
                     ? 'cursor-pointer hover:border-gray-400 bg-white text-gray-400 border-gray-400 hover:text-gray-400 hover:bg-white active:bg-indigo-100'
                     : 'cursor-default bg-gray-400'
                 )}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Enforce dominant gene"
                 onClick={handleEnforceFiltering}
               >
                 <FilterIconSolid className="h-3 w-3" aria-hidden="true" />

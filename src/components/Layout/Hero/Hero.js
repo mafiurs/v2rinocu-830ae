@@ -1,15 +1,15 @@
 /* This example requires Tailwind CSS v2.0+ */
 import Button from '../../atoms/Button';
 
-export default function Example() {
+export default function Hero() {
   const onClickAxieMarket = (e) => {
     e.preventDefault();
-    window.open('https://rinocu.com/axie/marketplace', '_blank');
+    window.location.replace('https://rinocu.com/axie/marketplace');
   };
   return (
     <div className="relative overflow-hidden">
       <div className="relative pt-6 pb-16 sm:pb-24">
-        <div className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+        <div className="mt-16 mx-auto max-w-screen-2xl px-4 sm:mt-24">
           <div className="text-center">
             <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
               <span className="block">Welcome to Rinocu</span>{' '}
