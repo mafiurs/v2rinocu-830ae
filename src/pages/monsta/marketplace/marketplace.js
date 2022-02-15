@@ -146,7 +146,9 @@ export default function Marketplace() {
   const applyTag = ({ monsta, tag }) => ({ ...monsta, [tag]: true });
 
   const disableNonMatchingClasses = (classType) => (monsta) => {
-    return classType && monsta.class !== classType ? applyTag({ monsta, tag: 'disabled' }) : monsta;
+    return classType && monsta.class.toLowerCase() !== classType
+      ? applyTag({ monsta, tag: 'disabled' })
+      : monsta;
   };
 
   const disableNonMatchingPureness = (pureness) => (monsta) => {
