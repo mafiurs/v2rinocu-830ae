@@ -99,7 +99,6 @@ export default function Marketplace() {
       setLastFetchedMonstas([]);
       setSteps(1);
       const { cloneUsage, currentPage, ...queries } = await getQueries();
-      console.log('QUERIES: ', queries);
       const step = (currentPage - 1) * 100;
       try {
         const response = await fetchMonstaMarket({
