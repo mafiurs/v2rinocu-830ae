@@ -17,6 +17,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
+    "@netlify/functions": "^1.0.0",
     "@stackbit/cli": "^0.1.14",
     "@stackbit/components": "^0.1.56",
     "agp-npm": "^1.0.10",
