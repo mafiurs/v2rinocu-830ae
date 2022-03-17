@@ -57,19 +57,11 @@ const getRecentlyListedAxies = async () => {
   };
   let response = await fetch(url, options, 3);
   response = await response.json();
-  console.log('response: ', response);
   return response;
-  // if (response.status === 500 || response?.errors) {
-  //   const customError = new Error('Server error');
-  //   throw customError;
-  // }
-  // axies = response?.data?.axies?.results;
-  // return axies;
 };
 
 const handler = async function (event, context) {
-  const recent = await getRecentlyListedAxies();
-
+  await getRecentlyListedAxies();
   return {
     statusCode: 200
   };

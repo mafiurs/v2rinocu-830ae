@@ -77,7 +77,7 @@ function Marketplace(props) {
         sort: 'PriceAsc',
         criteria: {
           bodyShapes: null,
-          breedCount: parseArrayNumbers(getArrayParams('breedCount', [0, 0])),
+          breedCount: parseArrayNumbers(getArrayParams('breedCount', [0, 7])),
           breedable: null,
           classes: getSingleParam('class', null),
           hp: parseArrayNumbers(getArrayParams('hp', [])),
@@ -210,6 +210,17 @@ function Marketplace(props) {
 
   const getFilters = () => (
     <>
+      <div className="flex space-x-5">
+        <h2 className="text-base">Filters</h2>
+        <button
+          className="text-blue-600 text-sm"
+          onClick={() => {
+            window.location.replace(`${window.location.pathname}`);
+          }}
+        >
+          Reset
+        </button>
+      </div>
       <FilterDrawer title="Genetic" defaultOpen>
         <Slider
           min={50}
@@ -288,7 +299,7 @@ function Marketplace(props) {
           max={7}
           step={1}
           queryString="breedCount"
-          defaultValue={[0, 0]}
+          defaultValue={[0, 7]}
           label="Breed Count"
         />
         <SliderWMarks

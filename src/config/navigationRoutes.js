@@ -2,7 +2,8 @@ import {
   LightningBoltIcon,
   DuplicateIcon,
   SearchCircleIcon,
-  UserGroupIcon
+  UserGroupIcon,
+  BellIcon
 } from '@heroicons/react/outline';
 
 export const navigation = [
@@ -42,6 +43,13 @@ export const navigation = [
         description: 'The best tool for breeders',
         href: '/axie/marketplace',
         icon: LightningBoltIcon
+      },
+      {
+        name: 'Marketplace listing alert',
+        description: 'Get notified when an axie gets listed',
+        href: '/axie/listed-nft-alert',
+        icon: BellIcon,
+        restricted: true
       }
     ]
   },
@@ -51,5 +59,5 @@ export const navigation = [
 export const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' }
+  { name: 'Sign out', href: '/api/auth/logout' }
 ];

@@ -1,9 +1,12 @@
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
+import { useUser } from '@auth0/nextjs-auth0';
 import { Fragment } from 'react';
-import { LightningBoltIcon, DuplicateIcon, SearchCircleIcon } from '@heroicons/react/outline';
+import { LightningBoltIcon, DuplicateIcon, LockClosedIcon } from '@heroicons/react/outline';
+import { classNames } from '../../../utils/helpers';
 
 export default function PopoverMenuButton({ name, dropdown, active }) {
+  const { user, error, isLoading } = useUser();
   return (
     <Popover className="relative">
       {({ open }) => (
@@ -37,7 +40,10 @@ export default function PopoverMenuButton({ name, dropdown, active }) {
                     <a
                       key={item.name}
                       href={item.href}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className={classNames(
+                        'flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50',
+                        item?.restricted && !user && 'bg-gray-300 hover:bg-gray-400'
+                      )}
                     >
                       <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-9 sm:w-9">
                         <item.icon className="h-5 w-5" aria-hidden="true" />
@@ -46,6 +52,11 @@ export default function PopoverMenuButton({ name, dropdown, active }) {
                         <p className="text-sm font-medium text-gray-800">{item.name}</p>
                         <p className="text-xs text-gray-500">{item.description}</p>
                       </div>
+                      {item?.restricted && !user && (
+                        <span className="inline-flex items-center justify-center h-10 w-10 rounded-md  text-gray-700 sm:h-9 sm:w-9">
+                          <LockClosedIcon className="h-6 w-6" aria-hidden="true" />
+                        </span>
+                      )}
                     </a>
                   ))}
                 </div>
