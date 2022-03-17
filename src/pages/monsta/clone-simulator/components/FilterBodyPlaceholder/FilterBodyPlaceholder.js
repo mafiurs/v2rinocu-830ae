@@ -1,5 +1,4 @@
 import { classNames, getChunkColor } from '../../../../../utils/helpers';
-import Button from '../../../../../components/atoms/Button';
 
 const AnimatedSpinLoading = ({ size = 5 }) => {
   return (
@@ -26,7 +25,7 @@ const AnimatedSpinLoading = ({ size = 5 }) => {
   );
 };
 
-export default function FilterBodyPlaceholder({ totalAxies = 0, loading, onClick, loadingAxies }) {
+export default function FilterBodyPlaceholder({ totalAxies = 0, loading }) {
   return (
     <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
       <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">

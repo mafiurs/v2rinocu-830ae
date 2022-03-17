@@ -192,6 +192,17 @@ export default function Marketplace() {
 
   const getFilters = () => (
     <>
+      <div className="flex space-x-5">
+        <h2 className="text-base">Filters</h2>
+        <button
+          className="text-blue-600 text-sm"
+          onClick={() => {
+            window.location.replace(`${window.location.pathname}`);
+          }}
+        >
+          Reset
+        </button>
+      </div>
       <FilterDrawer title="Genetic" defaultOpen>
         {monstaParts.map((part, idx) => (
           <BodyPartSelect key={idx} name={part} part={part} />
