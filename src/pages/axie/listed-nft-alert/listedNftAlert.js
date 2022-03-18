@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -180,7 +181,7 @@ function ListedAxieAlerts(props) {
         <meta property="og:image" content="/images/rinocu-discord-logo.png" />
         <meta
           name="keywords"
-          content="crypto game, crypto, defi, staking, axie infinity, monsta infinite, pegaxy, eth, axs, slp, btc, moni, stt, blockchain, wallet, metamask, ronin, ron, liquidity, katana, binance, bsc, bnb, busd, usdt, data, volume, mint, token, coin, solidity, react, web3, ethers"
+          content="nft, crypto game, crypto, defi, staking, axie infinity, monsta infinite, pegaxy, eth, axs, slp, btc, moni, stt, blockchain, wallet, metamask, ronin, ron, liquidity, katana, binance, bsc, bnb, busd, usdt, data, volume, mint, token, coin, solidity, react, web3, ethers"
         />
       </Head>
       {activeContent?.name === 'new-alert' && (
@@ -225,4 +226,4 @@ function ListedAxieAlerts(props) {
   );
 }
 
-export default ListedAxieAlerts;
+export default withPageAuthRequired(ListedAxieAlerts);
