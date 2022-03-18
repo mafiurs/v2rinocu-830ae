@@ -289,6 +289,7 @@ const handler = async (event, context, callback) => {
             // returns as object
             q.Lambda(['ref'], {
               alert: q.Select('data', q.Get(q.Select(['data', 'owner'], q.Get(q.Var('ref'))))),
+              owner: q.Select(['data', 'owner'], q.Get(q.Var('ref'))),
               axie: q.Var('axie')
             })
           )
@@ -318,14 +319,13 @@ const handler = async (event, context, callback) => {
         });
       });
       await Promise.all([...promises]);
-      const getAlertSentPayload = ({ alert, axie }) => {
+      const getAlertSentPayload = ({ axie, owner }) => {
         return {
           ...axie,
-          budget: alert.budget,
-          owner: alert.owner
+          owner
         };
       };
-      const res = await await client.query(
+      await await client.query(
         q.Map(
           alerts.map((alert) => getAlertSentPayload(alert)),
           q.Lambda(
