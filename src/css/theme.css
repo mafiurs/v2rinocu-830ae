@@ -2,10 +2,22 @@
 @import 'tailwindcss/components';
 
 @layer components {
-    .colors-f {
-        @apply bg-secondary text-on-secondary;
-        .sb-component-button-secondary {
-            @apply border-light text-light;
-        }
+  .colors-f {
+    @apply bg-secondary text-on-secondary;
+    .sb-component-button-secondary {
+      @apply border-light text-light;
     }
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
 }

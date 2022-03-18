@@ -1,0 +1,92 @@
+{
+  "body": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  },
+  "arms": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  },
+  "legs": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  },
+  "head": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  },
+  "face": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  },
+  "tail": {
+    "prime": { "partName": "Prime", "skillName": "Prime", "class": "Prime" },
+    "terminator": { "partName": "Terminator", "skillName": "Terminator", "class": "Terminator" },
+    "alchemist": { "partName": "Alchemist", "skillName": "Alchemist", "class": "Alchemist" },
+    "golem": { "partName": "Golem", "skillName": "Golem", "class": "Golem" },
+    "nightingale": {
+      "partName": "Nightingale",
+      "skillName": "Nightingale",
+      "class": "Nightingale"
+    },
+    "prophet": { "partName": "Prophet", "skillName": "Prophet", "class": "Prophet" },
+    "grognak": { "partName": "Grognak", "skillName": "Grognak", "class": "Grognak" },
+    "juggernaut": { "partName": "Juggernaut", "skillName": "Juggernaut", "class": "Juggernaut" },
+    "bomoh": { "partName": "Bomoh", "skillName": "Bomoh", "class": "Bomoh" }
+  }
+}
