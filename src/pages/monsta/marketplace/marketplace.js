@@ -238,7 +238,18 @@ export default function Marketplace() {
     <Layout>
       <Head>
         <title>Rinocu | Monsta | Marketplace</title>
+        <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content="Monsta Infinite - marketplace explorer." />
+        <meta
+          name="description"
+          content="Rinocu delivers the best crypto game content within the reach of a click. The best crypto game content ever created."
+        />
+        <meta property="og:image" content="/images/rinocu-discord-logo.png" />
+        <meta
+          name="keywords"
+          content="nft, crypto game, crypto, defi, staking, axie infinity, monsta infinite, pegaxy, eth, axs, slp, btc, moni, stt, blockchain, wallet, metamask, ronin, ron, liquidity, katana, binance, bsc, bnb, busd, usdt, data, volume, mint, token, coin, solidity, react, web3, ethers"
+        />
       </Head>
       {/* Mobile filter dialog */}
       <Transition.Root show={mobileFiltersOpen} as={Fragment}>
