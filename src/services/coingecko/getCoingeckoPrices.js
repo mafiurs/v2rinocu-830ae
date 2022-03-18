@@ -1,5 +1,5 @@
 import axios from 'axios';
-const COINGECKO_SIMPLE_PRICE_API = '/api/coingeckoSimplePrice';
+const COINGECKO_SIMPLE_PRICE_API = '/api/functions/coingeckoSimplePrice';
 
 const getCoingeckoPrices = async (rawQuery, parsedIds) => {
   const formatNumber = (n, fixed = 2) => Number(n.toFixed(fixed));

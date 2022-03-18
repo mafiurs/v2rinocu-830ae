@@ -1,5 +1,13 @@
 import _ from 'lodash';
 
+export const parseJWTMetadata = (token) => {
+  const namespace = 'https:/db.fauna.com/';
+  const keys = Object.keys(token)
+    .filter((key) => key.startsWith(namespace))
+    .map((key) => key.replace(namespace, ''));
+  return keys.reduce((result, key) => ({ ...result, [key]: token[namespace + key] }), {});
+};
+
 export const canUseDOM = !!(
   typeof window !== 'undefined' &&
   window.document &&
@@ -179,3 +187,5 @@ export const getInputProps = (name = '', formik) => {
   const error = _.get(errors, name);
   return { name, value, handleChange, error };
 };
+
+export const listFormattter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });

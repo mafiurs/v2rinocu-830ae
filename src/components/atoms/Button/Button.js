@@ -3,15 +3,25 @@ import { classNames } from '../../../utils/helpers';
 const Button = (props) => {
   const { type, label, onClick, loading, disabled, inverted, size = 'md', className } = props;
 
+  const getButtonProps = () => {
+    const props = {};
+    if (!disabled) {
+      return {
+        ...props,
+        onClick: (e) => {
+          if (!loading && !disabled && onClick) {
+            e.preventDefault();
+            onClick(e);
+          }
+        }
+      };
+    }
+  };
+
   return (
     <button
       type={type}
-      onClick={(e) => {
-        if (!loading && !disabled && onClick) {
-          e.preventDefault();
-          onClick(e);
-        }
-      }}
+      {...getButtonProps()}
       className={classNames(
         'inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white relative focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white w-full sm:w-auto',
         !disabled && !inverted && 'bg-indigo-600 hover:bg-indigo-700',

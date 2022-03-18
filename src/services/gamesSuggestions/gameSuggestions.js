@@ -1,5 +1,5 @@
 import axios from 'axios';
-const GAME_SUGGESTIONS_API = '/api/suggestionsWCaptcha';
+const GAME_SUGGESTIONS_API = '/api/functions/suggestionsWCaptcha';
 
 const postGameSuggestions = async (body) => {
   try {
