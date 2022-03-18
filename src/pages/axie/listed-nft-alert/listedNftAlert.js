@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -225,4 +226,4 @@ function ListedAxieAlerts(props) {
   );
 }
 
-export default ListedAxieAlerts;
+export default withPageAuthRequired(ListedAxieAlerts);
