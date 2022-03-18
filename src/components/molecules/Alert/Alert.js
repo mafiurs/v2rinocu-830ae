@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { CheckCircleIcon, XCircleIcon, XIcon } from '@heroicons/react/solid';
+import { CheckCircleIcon, XCircleIcon, XIcon, ExclamationIcon } from '@heroicons/react/solid';
 import { classNames } from '../../../utils/helpers';
 import { AppContext } from '../../../context';
 
@@ -21,7 +21,8 @@ export default function Alert() {
         'fixed left-1/2 -translate-x-1/2 bottom-4 min-w-80',
         'rounded-md  p-4 sm:max-w-xs',
         type === 'success' && 'bg-green-50',
-        type === 'error' && 'bg-red-50'
+        type === 'error' && 'bg-red-50',
+        type === 'info' && 'bg-yellow-50'
       )}
     >
       <div className="flex">
@@ -29,15 +30,18 @@ export default function Alert() {
           {type === 'success' && (
             <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
           )}
-
           {type === 'error' && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
+          {type === 'info' && (
+            <ExclamationIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+          )}
         </div>
         <div className="ml-3">
           <h3
             className={classNames(
               'text-sm font-medium',
               type === 'success' && 'text-green-800',
-              type === 'error' && 'text-red-800'
+              type === 'error' && 'text-red-800',
+              type === 'info' && 'text-yellow-800'
             )}
           >
             {title}
@@ -52,7 +56,9 @@ export default function Alert() {
                 type === 'success' &&
                   'bg-green-50 text-green-500 hover:bg-green-100 focus:ring-offset-green-50 focus:ring-green-600',
                 type === 'error' &&
-                  'bg-red-50 text-red-500 hover:bg-red-100 focus:ring-offset-red-50 focus:ring-red-600'
+                  'bg-red-50 text-red-500 hover:bg-red-100 focus:ring-offset-red-50 focus:ring-red-600',
+                type === 'info' &&
+                  'bg-yellow-50 text-yellow-500 hover:bg-yellow-100 focus:ring-offset-yellow-50 focus:ring-yellow-600'
               )}
               onClick={handleClose}
             >
