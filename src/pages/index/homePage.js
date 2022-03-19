@@ -1,5 +1,10 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useContext, useEffect } from 'react';
 import Layout from '../../components/Layout';
+import { AppContext } from '../../context';
+import { route } from 'next/dist/server/router';
 
 const metrics = [
   {
@@ -17,6 +22,21 @@ const metrics = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+  const { user, isLoading } = useUser();
+  const { dispatch } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (router.query && router.query.unverifiedEmail && !user) {
+        dispatch({
+          type: 'setAlert',
+          payload: { open: true, title: 'Please, verify your email before log in', type: 'info' }
+        });
+      }
+    }
+  }, [router.query, user]);
+
   return (
     <Layout homePage>
       <Head>
