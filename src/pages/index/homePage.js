@@ -27,13 +27,11 @@ export default function HomePage() {
   const { dispatch } = useContext(AppContext);
 
   useEffect(() => {
-    if (!isLoading) {
-      if (router.query && router.query.unverifiedEmail && !user) {
-        dispatch({
-          type: 'setAlert',
-          payload: { open: true, title: 'Please, verify your email before log in', type: 'info' }
-        });
-      }
+    if (router.query && router.query.unverifiedEmail && !user) {
+      dispatch({
+        type: 'setAlert',
+        payload: { open: true, title: 'Please, verify your email before log in', type: 'info' }
+      });
     }
   }, [router.query, user]);
 
