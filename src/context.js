@@ -16,7 +16,7 @@ export const ContextProvider = ({ children }) => {
   const closeAlertTimeout = () => {
     alertTimeOut = setTimeout(() => {
       closeAlert();
-    }, 5000);
+    }, 7000);
   };
 
   const clearAlertTimeout = () => {
