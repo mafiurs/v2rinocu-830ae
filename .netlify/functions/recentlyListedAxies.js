@@ -228,7 +228,7 @@ const handler = async (event, context, callback) => {
           q.If(
             q.All(
               q.Map(
-                q.Select(['data', 'criteria', 'parts'], q.Get(q.Var('alert'))),
+                q.Select(['data', 'criteria', 'parts'], q.Get(q.Var('alert')), []),
                 q.Lambda(
                   'part',
                   q.If(
