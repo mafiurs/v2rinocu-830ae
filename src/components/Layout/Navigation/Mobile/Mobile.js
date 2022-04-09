@@ -1,14 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import { BellIcon } from '@heroicons/react/outline';
+import { useUser } from '@auth0/nextjs-auth0';
+import { useRouter } from 'next/router';
+import {
+  LightningBoltIcon,
+  DuplicateIcon,
+  LockClosedIcon,
+  BellIcon
+} from '@heroicons/react/outline';
+import Button from '../../../atoms/Button';
 import { canUseDOM, getBasePath } from '../../../../utils/helpers';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Mobile({ navigation = [], userNavigation = [], user = {} }) {
+export default function Mobile({ navigation = [], userNavigation = [] }) {
+  const router = useRouter();
+  const { user } = useUser();
   const [basePath, setBasePath] = useState('/');
   useEffect(() => {
     if (canUseDOM) {
@@ -55,16 +65,23 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
                       <a
                         key={item.name}
                         href={item.href}
-                        className="-m-3 p-1 flex items-center rounded-md hover:bg-gray-50"
+                        className={classNames(
+                          'relative -m-3 p-1 flex items-center rounded-md hover:bg-gray-50',
+                          item?.restricted && !user && 'bg-gray-300 hover:bg-gray-400'
+                        )}
                       >
                         <item.icon
                           className="flex-shrink-0 h-6 w-6 text-indigo-600"
                           aria-hidden="true"
                         />
-
                         <span className="ml-3 text-base font-medium text-gray-900">
                           {item.name}
                         </span>
+                        {item?.restricted && !user && (
+                          <span className="absolute right-0 inline-flex items-center justify-center h-10 w-10 rounded-md  text-gray-700 sm:h-9 sm:w-9">
+                            <LockClosedIcon className="h-6 w-6" aria-hidden="true" />
+                          </span>
+                        )}
                       </a>
                     ))}
                   </nav>
@@ -92,36 +109,62 @@ export default function Mobile({ navigation = [], userNavigation = [], user = {}
           );
         })}
       </div>
-      {/* <div className="pt-4 pb-3 border-t border-gray-700">
-        <div className="flex items-center px-5">
-          <div className="flex-shrink-0">
-            <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
-          </div>
-          <div className="ml-3">
-            <div className="text-base font-medium leading-none text-white">{user.name}</div>
-            <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
-          </div>
-          <button
+      {!user && (
+        <div className="m-2">
+          <Button
+            label="Login"
+            size="sm"
+            //
+            onClick={(e) => {
+              e.preventDefault();
+              router.push('/api/auth/login');
+            }}
+          />
+        </div>
+      )}
+      {user && (
+        <div className="pt-4 pb-3 border-t border-gray-700">
+          <div className="flex items-center px-5">
+            <div className="flex-shrink-0">
+              <img
+                className="h-10 w-10 rounded-full"
+                src={user?.picture || '/images/rinocu-discord-logo.png'}
+                alt="profile picture"
+              />
+            </div>
+            <div className="ml-3">
+              {user?.name && (
+                <div className="text-base font-medium leading-none text-white">{user?.name}</div>
+              )}
+
+              {user?.nickname && (
+                <div className="text-sm font-medium leading-none text-gray-400">
+                  {user?.nickname}
+                </div>
+              )}
+            </div>
+            {/* <button
             type="button"
             className="ml-auto bg-gray-900 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
           >
             <span className="sr-only">View notifications</span>
             <BellIcon className="h-6 w-6" aria-hidden="true" />
-          </button>
+          </button> */}
+          </div>
+          <div className="mt-3 px-2 space-y-1">
+            {userNavigation.map((item) => (
+              <Disclosure.Button
+                key={item.name}
+                as="a"
+                href={item.href}
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+              >
+                {item.name}
+              </Disclosure.Button>
+            ))}
+          </div>
         </div>
-        <div className="mt-3 px-2 space-y-1">
-          {userNavigation.map((item) => (
-            <Disclosure.Button
-              key={item.name}
-              as="a"
-              href={item.href}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-            >
-              {item.name}
-            </Disclosure.Button>
-          ))}
-        </div>
-      </div> */}
+      )}
     </>
   );
 }

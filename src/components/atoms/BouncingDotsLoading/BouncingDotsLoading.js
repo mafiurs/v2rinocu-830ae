@@ -6,15 +6,15 @@ export default function BouncingDotsLoading() {
           <div className="flex items-center justify-center space-x-2">
             <div
               style={{ animationDelay: '0.1s' }}
-              className="w-8 h-8 bg-indigo-600 rounded-full animate-bounce"
+              className="w-6 h-6 sm:w-8 sm:h-8 bg-indigo-600 rounded-full animate-bounce"
             ></div>
             <div
               style={{ animationDelay: '0.2s' }}
-              className="w-8 h-8 bg-indigo-600 rounded-full animate-bounce"
+              className="w-6 h-6 sm:w-8 sm:h-8 bg-indigo-600 rounded-full animate-bounce"
             ></div>
             <div
               style={{ animationDelay: '0.3s' }}
-              className="w-8 h-8 bg-indigo-600 rounded-full animate-bounce"
+              className="w-6 h-6 sm:w-8 sm:h-8 bg-indigo-600 rounded-full animate-bounce"
             ></div>
           </div>
         </div>
