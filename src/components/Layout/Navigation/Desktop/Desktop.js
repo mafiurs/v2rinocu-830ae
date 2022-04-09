@@ -90,7 +90,7 @@ export default function Desktop({ navigation = [], userNavigation = [] }) {
                   <img
                     className="h-8 w-8 rounded-full"
                     src={user?.picture || '/images/rinocu-discord-logo.png'}
-                    alt=""
+                    alt="profile picture"
                   />
                 </Menu.Button>
               </div>

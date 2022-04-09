@@ -1,29 +1,13 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-const tabs = [
-  { name: 'New alert', href: '#', current: true },
-  { name: 'My alerts', href: '#', current: false }
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Tabs(props) {
+  const handleMobileChange = (e) => {
+    const newSelectedTab = props?.content?.find((tab) => tab.tabLabel === e.target.value).name;
+
+    props.handleSwitchTab(newSelectedTab)();
+  };
   return (
     <div>
       <div className="sm:hidden">
@@ -34,11 +18,12 @@ export default function Tabs(props) {
         <select
           id="tabs"
           name="tabs"
-          className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-          defaultValue={tabs.find((tab) => tab.current).name}
+          className="block w-full p-2 hover:bg-gray-700 border-gray-300 bg-gray-900 rounded-md text-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+          defaultValue={props?.content?.find((tab) => tab.active).tabLabel}
+          onChange={handleMobileChange}
         >
-          {tabs.map((tab) => (
-            <option key={tab.name}>{tab.name}</option>
+          {props?.content?.map((tab) => (
+            <option key={tab.name}>{tab.tabLabel}</option>
           ))}
         </select>
       </div>
