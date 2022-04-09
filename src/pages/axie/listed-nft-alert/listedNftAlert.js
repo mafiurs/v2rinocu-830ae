@@ -185,7 +185,7 @@ function ListedAxieAlerts(props) {
         />
       </Head>
       {activeContent?.name === 'new-alert' && (
-        <section aria-labelledby="products-heading" className="pt-8 max-w-7xl mx-auto">
+        <section aria-labelledby="products-heading" className="pt-2 max-w-7xl mx-auto">
           <h2 id="products-heading" className="sr-only">
             Listed axie alerts
           </h2>
@@ -205,7 +205,7 @@ function ListedAxieAlerts(props) {
         <>
           {userAlerts.loading && <BouncingDotsLoading />}
           {userAlerts.data && (
-            <section aria-labelledby="products-heading" className="pt-8 max-w-7xl mx-auto">
+            <section aria-labelledby="products-heading" className="pt-2 max-w-7xl mx-auto">
               <h2 id="products-heading" className="sr-only">
                 Listed axie alerts
               </h2>
