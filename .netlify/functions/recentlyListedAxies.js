@@ -348,4 +348,4 @@ const handler = async (event, context, callback) => {
   }
 };
 
-module.exports.handler = schedule('* * * * *', handler);
+module.exports.handler = schedule('0 * * * *', handler);
